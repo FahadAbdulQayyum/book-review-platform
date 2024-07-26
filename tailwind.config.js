@@ -12,11 +12,15 @@ module.exports = {
         // 'other': '#4E8098',
 
         'primary': '#405D72',
+        // 'primary': 'yellow-500',
         'secondary': '#758694',
         'tertiary': '#F7E7DC',
         'other': '#4E8098',
       }
     },
+    backgroundImage: {
+      'hero-pattern': "url('./src/assets/books.jpeg')",
+    }
   },
   plugins: [],
 }

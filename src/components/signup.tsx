@@ -7,9 +7,10 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 
-const Login = () => {
+const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     const handleClickShowPassword = () => {
@@ -17,7 +18,7 @@ const Login = () => {
     };
 
     const handleSignUp = () => {
-        console.log(`Email: ${email}, Password: ${password}`);
+        console.log(`Email: ${email}, Username: ${username}, Password: ${password}`);
     };
 
     return (
@@ -28,7 +29,7 @@ const Login = () => {
             </div>
             <div className='sm:w-[60%] sm:h-full bg-tertiary text-black flex items-center'>
                 <div className='m-10 sm:m-6 md:m-20 lg:m-28 overflow-hidden'>
-                    <h1 className='text-3xl font-bold tracking-tight'>Log In</h1>
+                    <h1 className='text-3xl font-bold tracking-tight'>Sign Up</h1>
                     <div className='w-20 h-1 bg-primary mt-3'></div>
                     <div>
                         <Box
@@ -38,6 +39,8 @@ const Login = () => {
                             autoComplete="off"
                         >
                             <TextField id="email-field" label="Email" value={email} onChange={e => setEmail(e.target.value)} variant="standard" />
+                            <br />
+                            <TextField id="username-field" label="Username" value={username} onChange={e => setUsername(e.target.value)} variant="standard" />
                             <br />
                             <TextField
                                 id="password-field"
@@ -68,12 +71,12 @@ const Login = () => {
                                             backgroundColor: '#EAB30899',
                                         },
                                     }}
-                                    className='w-full'
+                                    className='w-full bg-yellow-500'
                                     onClick={handleSignUp}
                                 >
-                                    Login
+                                    Sign Up
                                 </Button>
-                                <small>Not registered yet? <a href="/signup">Sign up</a></small>
+                                <small>Already registered? <a href="/login">Login</a></small>
                             </div>
                         </Box>
                     </div>
@@ -83,7 +86,7 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default SignUp;
 
 
 
