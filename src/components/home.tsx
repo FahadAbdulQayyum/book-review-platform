@@ -110,27 +110,37 @@
 
 
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, ChangeEvent } from 'react'
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 import Loader from './loader';
 
+interface SearchProps {
+    id: string,
+    book: string,
+    author: string,
+    rate: number
+}
+
 const Home = () => {
 
-const [data, setData] = useState([])
+    const [data, setData] = useState([])
+
+    let fetchData = async () => {
+        try {
+            const dt = await axios.get("/data/data.json")
+            console.log('dtt', dt.data)
+            setData(dt.data)
+        } catch (err) {
+            console.error('Error fetching data:', err)
+        }
+    }
 
     useEffect(() => {
-        let fetchData = async () => {
-            try {
-                const dt = await axios.get("/data/data.json")
-                console.log('dtt', dt.data)
-                setData(dt.data)
-            } catch (err) {
-                console.error('Error fetching data:', err)
-            }
-        }
         setTimeout(() => {
             fetchData()
         }, 1500);
@@ -140,53 +150,110 @@ const [data, setData] = useState([])
     const [hover, setHover] = useState(-1);
     const [search, setSearch] = useState("");
 
+    const [searchError, setSearchError] = useState("");
+
+
     useEffect(() => { console.log('search useEffect performed') }, [search])
 
+    function validateInput(): boolean {
+        if (!search.length) {
+            return false
+        }
+        return true
+    }
+
     const handleSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        const isValid = validateInput();
+
+        if (isValid) {
+            console.log(`Search: ${search}`);
+
+            console.log('dataaaa', data, search)
+            let searchedData = data.filter((v: SearchProps) => v.author.toLowerCase().includes(search.toLowerCase()) || v.book.toLowerCase().includes(search.toLowerCase()))
+
+            setData(searchedData)
+
+        } else {
+            search.length === 0 && setSearchError("Type something to search")
+        }
+
         console.log('handleSearch', search)
         setSearch("")
     }
 
+    const onChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
+        fetchData()
+        setSearch(e.target.value);
+        if (e.target.value.length >= 6) {
+            setSearchError("")
+        } else {
+            setSearchError("Search should have more than 5 characters.");
+        }
+    };
+
     return (
-        <div className='space-y-1 px-2'>
-            <form className='flex space-x-2'>
-                <input placeholder='Search for book' className='border w-full p-1' value={search} onChange={e => setSearch(e.target.value)} />
-                <Button
-                    variant="contained"
-                    sx={{
-                        backgroundColor: '#EAB308',
-                        '&:hover': {
-                            backgroundColor: '#EAB30899',
-                        },
-                    }}
-                    className=' bg-yellow-500'
-                    onClick={handleSearch}
-                >
-                    Search
-                </Button>
-            </form>
-            {!data.length ? <Loader /> : data.map(v =>
-                <div key={v.id + v.rate} className='bg-tertiary flex justify-between items-center px-5 rounded-full' >
-                    <div>
-                        <p>{v.book.toUpperCase()}</p>
-                        <small>{v.author}</small>
-                    </div>
-                    <div>{v.rate}</div>
-                    <Rating
-                        name="hover-feedback"
-                        value={v.rate}
-                        precision={0.5}
-                        onChange={(event, newValue) => {
-                            setValue(value);
+        <div className='space-y-1 px-2 '>
+            <Box
+                className='flex'
+                component="form"
+                sx={{
+                    '& .MuiTextField-root': {
+                        m: 1,
+                        width: { xs: '100%', sm: '100%' }
+                    }
+                }}
+                noValidate
+                autoComplete="off"
+            >
+                <TextField
+                    error={searchError !== ""}
+                    helperText={searchError}
+                    id="search-field"
+                    label="Search"
+                    value={search}
+                    onChange={onChangeSearch}
+                    variant="standard"
+                    required
+                />
+                <div className='mt-3 ml-2 text-center'>
+                    <Button
+                        variant="contained"
+                        sx={{
+                            backgroundColor: '#EAB308',
+                            '&:hover': {
+                                backgroundColor: '#EAB30899',
+                            },
                         }}
-                        onChangeActive={(event, newHover) => {
-                            setHover(newHover);
-                        }}
-                        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-                    />
+                        className='w-full bg-yellow-500'
+                        onClick={handleSearch}
+                    >
+                        Search
+                    </Button>
                 </div>
-            )
-            }
+            </Box>
+            {
+                !data.length ? <Loader /> : data.map((v: SearchProps) =>
+                    <div key={v.id + v.rate} className='bg-tertiary flex justify-between items-center px-5 rounded-full' >
+                        <div>
+                            <p>{v.book.toUpperCase()}</p>
+                            <small>{v.author}</small>
+                        </div>
+                        <div>{v.rate}</div>
+                        <Rating
+                            name="hover-feedback"
+                            value={v.rate}
+                            precision={0.5}
+                            onChange={(event, newValue) => {
+                                setValue(value);
+                            }}
+                            onChangeActive={(event, newHover) => {
+                                setHover(newHover);
+                            }}
+                            emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                        />
+                    </div>
+                )}
         </div>
     )
 }
