@@ -41,47 +41,47 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
     };
 
     const onChangeBookName = (e: ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
-        if (emailRegex.test(e.target.value)) {
-            setEmailError("");
+        setBookName(e.target.value);
+        if (bookName.length > 1) {
+            setBookNameError("");
         } else {
-            setEmailError("Please enter a valid email.");
+            setBookNameError("Please enter a book name.");
         }
     };
 
     const onChangeBookId = (e: ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
-        if (emailRegex.test(e.target.value)) {
-            setEmailError("");
+        setBookId(e.target.value);
+        if (bookId.length > 1) {
+            setBookIdError("");
         } else {
-            setEmailError("Please enter a valid email.");
+            setBookIdError("Please enter book id.");
         }
     };
 
     const onChangeBookAuthor = (e: ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
-        if (emailRegex.test(e.target.value)) {
-            setEmailError("");
+        setBookAuthor(e.target.value);
+        if (bookAuthor.length > 1) {
+            setBookAuthorError("");
         } else {
-            setEmailError("Please enter a valid email.");
+            setBookAuthorError("Please enter book author name.");
         }
     };
 
     const onChangeBookReviewText = (e: ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
-        if (emailRegex.test(e.target.value)) {
-            setEmailError("");
+        setBookReviewText(e.target.value);
+        if (bookReviewText.length > 5) {
+            setBookReviewTextError("");
         } else {
-            setEmailError("Please enter a valid email.");
+            setBookReviewTextError("Please type a sentence at least.");
         }
     };
 
     const onChangeBookRating = (e: ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
-        if (emailRegex.test(e.target.value)) {
-            setEmailError("");
+        setBookRating(e.target.value);
+        if (!bookRating) {
+            setBookRatingError("");
         } else {
-            setEmailError("Please enter a valid email.");
+            setBookRatingError("Please enter your rating.");
         }
     };
 
@@ -113,15 +113,15 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
     };
 
     function validateInput(): boolean {
-        if (!email.length && !emailRegex.test(email)) {
+        if (!email.length && !emailRegex.test(email) && isFor.replace(" ", "").toLowerCase() !== "reviewform") {
             return false
         }
 
-        if (!(username.length > 5)) {
+        if (!(username.length > 5) && isFor.replace(" ", "").toLowerCase() !== "reviewform") {
             return false
         }
 
-        if (!(password.length > 5)) {
+        if (!(password.length > 5) && isFor.replace(" ", "").toLowerCase() !== "reviewform") {
             return false
         }
 
@@ -132,11 +132,26 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
         e.preventDefault();
         const isValid = validateInput();
         if (isValid) {
-            console.log(`Email: ${email}, Username: ${username} Password: ${password}`);
+            console.log(`
+                Email: ${email},
+                Username: ${username},
+                Password: ${password},
+                Book Name: ${bookName},
+                Book Id: ${bookId},
+                Book Author: ${bookAuthor},
+                Book Review Text: ${bookReviewText},
+                Book Rating: ${bookRating},
+                
+                `);
         } else {
             email.length === 0 && setEmailError("Enter your email")
             username.length === 0 && setUsernameError("Enter your username")
             password.length === 0 && setPasswordError("Enter your email")
+            bookName.length === 0 && setBookNameError("Enter book name")
+            bookId.length === 0 && setBookIdError("Enter book id")
+            bookAuthor.length === 0 && setBookAuthorError("Enter Author name")
+            bookReviewText.length === 0 && setBookReviewTextError("Type your reviews")
+            bookRating.length === 0 && setBookRatingError("Enter your ratings")
         }
     };
 
@@ -226,8 +241,8 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
                                     <TextField
                                         error={bookIdError !== ""}
                                         helperText={bookIdError}
-                                        id="email-field"
-                                        label="Book Name"
+                                        id="bookid-field"
+                                        label="Book ID"
                                         value={bookId}
                                         onChange={onChangeBookId}
                                         variant="standard"
@@ -236,8 +251,8 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
                                     <TextField
                                         error={bookAuthorError !== ""}
                                         helperText={bookAuthorError}
-                                        id="email-field"
-                                        label="Book Name"
+                                        id="bookauthor-field"
+                                        label="Book Author"
                                         value={bookAuthor}
                                         onChange={onChangeBookAuthor}
                                         variant="standard"
@@ -246,8 +261,8 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
                                     <TextField
                                         error={bookReviewTextError !== ""}
                                         helperText={bookReviewTextError}
-                                        id="email-field"
-                                        label="Book Name"
+                                        id="bookreview-field"
+                                        label="Review Text"
                                         value={bookReviewText}
                                         onChange={onChangeBookReviewText}
                                         variant="standard"
@@ -256,14 +271,14 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
                                     <TextField
                                         error={bookRatingError !== ""}
                                         helperText={bookRatingError}
-                                        id="email-field"
-                                        label="Book Name"
+                                        id="bookrating-field"
+                                        label="Book Rating"
                                         value={bookRating}
                                         onChange={onChangeBookRating}
                                         variant="standard"
                                         required
                                     />
-                                    <TextField
+                                    {/* <TextField
                                         error={emailError !== ""}
                                         helperText={emailError}
                                         id="email-field"
@@ -272,7 +287,7 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
                                         onChange={onChangeEmail}
                                         variant="standard"
                                         required
-                                    />
+                                    /> */}
                                 </div>
 
                             }
