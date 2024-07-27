@@ -6,6 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
+import { Outlet, Link } from 'react-router-dom';
 
 interface FormProps {
     isNew?: boolean;
@@ -141,8 +142,17 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
                 Book Author: ${bookAuthor},
                 Book Review Text: ${bookReviewText},
                 Book Rating: ${bookRating},
-                
                 `);
+
+            setEmail("")
+            setUsername("")
+            setPassword("")
+            setBookName("")
+            setBookId("")
+            setBookAuthor("")
+            setBookReviewText("")
+            setBookRating("")
+
         } else {
             email.length === 0 && setEmailError("Enter your email")
             username.length === 0 && setUsernameError("Enter your username")
@@ -306,7 +316,7 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
                                     {isFor.replace(" ", "").toLowerCase() === "login" ? 'Login' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Signup' : "Submit"}
                                 </Button>
                                 {/* <small>{!isNew ? 'Not registered yet?' : 'Already registered?'} <a href={isNew ? '/login' : '/signup'}>{isNew ? 'Login' : 'Signup'}</a></small> */}
-                                <small>{isFor.replace(" ", "").toLowerCase() === "login" ? 'Not registered yet?' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Already registered?' : ""} <a href={isFor.replace(" ", "").toLowerCase() === "login" ? '/login' : isFor.replace(" ", "").toLowerCase() === "signup" ? '/signup' : ""}>{isFor.replace(" ", "").toLowerCase() === "login" ? 'Signup' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Login' : ""}</a></small>
+                                <small>{isFor.replace(" ", "").toLowerCase() === "login" ? 'Not registered yet?' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Already registered?' : ""} <Link to={isFor.replace(" ", "").toLowerCase() === "login" ? '/signup' : isFor.replace(" ", "").toLowerCase() === "signup" ? '/login' : ""}>{isFor.replace(" ", "").toLowerCase() === "login" ? 'Signup' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Login' : ""}</Link></small>
                             </div>
                         </Box>
                     </div>

@@ -97,7 +97,7 @@ const Home = () => {
     };
 
     return (
-        <div className='space-y-1 px-2'>
+        <div className='space-y-1 px-2 mt-16'>
             <Box
                 className='flex'
                 component="form"
@@ -173,7 +173,7 @@ const Home = () => {
                         color: '#ffffff',
                     },
                     '& .MuiPaginationItem-page:hover': {
-                        backgroundColor: '#EAB30899',
+                        backgroundColor: '#EAB30899'
                     },
                 }}
             />

@@ -1,36 +1,15 @@
-// import { useState } from 'react'
-// import './App.css'
-// import Home from './components/home'
-// import Login from './components/login'
-// import Navbar from './components/navbar'
-// import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import React from 'react'
+import CustomNavbar from './components/customNav'
+import Home from './components/home'
+import { Outlet } from 'react-router-dom'
 
-// function App() {
+const App = () => {
+    return (
+        <div>
+            <CustomNavbar />
+            <Outlet />
+        </div>
+    )
+}
 
-//   return (
-//     <>
-//       {/* <Navbar /> */}
-//       {/* <Home /> */}
-//       {/* <Login /> */}
-
-//       <Router>
-//         <Switch>
-//           <Route path="/login">
-//             <Login />
-//           </Route>
-//           {/* <Route path="/signup">
-//             <SignUp />
-//           </Route> */}
-//           <Route path="/home">
-//             <Home />
-//           </Route>
-//           <Route path="/">
-//             <Home />
-//           </Route>
-//         </Switch>
-//       </Router>
-//     </>
-//   )
-// }
-
-// export default App
+export default App
