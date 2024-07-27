@@ -85,7 +85,6 @@ const Form: React.FC<FormProps> = ({ isNew }) => {
 
     return (
         <div className='text-white sm:flex sm:flex-col md:flex-row justify-between items-center w-full h-screen'>
-            {/* <div className='flex flex-col items-center justify-center bg-primary w-[40%] lg:w-full h-64 sm:h-full bg-hero-pattern bg-cover bg-blend-soft-light'> */}
             <div className='flex flex-col items-center justify-center bg-primary md:w-[40%] w-full h-64 sm:h-full bg-hero-pattern bg-cover bg-blend-soft-light'>
                 <h2 className='uppercase text-5xl backdrop-blur-sm p-10'>Review<small className='text-slate-600'> Books</small></h2>
                 <small className='mx-6 text-sm'>Spend your quality time with quality books after getting the contentful reviews.</small>
