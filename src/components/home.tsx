@@ -9,7 +9,7 @@ import Loader from './loader';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
-import { fetchBooks } from '../features/counter/bookSlice';
+import { fetchData } from '../features/counter/bookSlice';
 
 interface SearchProps {
     id: string;
@@ -31,26 +31,23 @@ const Home = () => {
     const [search, setSearch] = useState("");
     const [searchError, setSearchError] = useState("");
 
-    // Pagination state
     const [page, setPage] = useState(1);
     const itemsPerPage = 5;
 
     useEffect(() => {
         if (status === 'idle') {
-            dispatch(fetchBooks());
+            const url = 'data/data.json'
+            dispatch(fetchData({ url }));
         }
         console.log('books:', books);
-        // }, [status, dispatch]);
     }, []);
 
     useEffect(() => {
-        console.log('books>>>:', books);
         setData(books);
-        setPage(1);  // Reset to the first page when books are loaded
+        setPage(1);
     }, [books]);
 
     useEffect(() => {
-        // Update display data when page or data changes
         const startIndex = (page - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         setDisplayData(data.slice(startIndex, endIndex));
@@ -73,7 +70,7 @@ const Home = () => {
                 v.book.toLowerCase().includes(search.toLowerCase())
             );
             setData(searchedData);
-            setPage(1); // Reset to the first page after search
+            setPage(1);
             console.log('searchedData:', searchedData);
         } else {
             search.length === 0 && setSearchError("Type something to search");
