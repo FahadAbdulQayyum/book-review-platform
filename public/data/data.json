@@ -1,0 +1,26 @@
+[
+    {
+        "id": "F3FEDACCCC", 
+        "book": "A flying kite", 
+        "author": "Khalid Hussain", 
+        "rate": 4
+    },
+    {
+        "id": "F3FEDACCCC1", 
+        "book": "A flying kite1", 
+        "author": "Khalid Hussain1", 
+        "rate": 3
+    },
+    {
+        "id": "F3FEDACCCC2", 
+        "book": "A flying kite2", 
+        "author": "Khalid Hussain2", 
+        "rate": 2
+    },
+    {
+        "id": "F3FEDACCCC5", 
+        "book": "A flying kite5", 
+        "author": "Khalid Hussain5", 
+        "rate": 5
+    }
+]

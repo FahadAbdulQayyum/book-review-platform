@@ -110,39 +110,62 @@
 
 
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Rating from '@mui/material/Rating';
-import Box from '@mui/material/Box';
 import StarIcon from '@mui/icons-material/Star';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-
-
+import Button from '@mui/material/Button';
+import axios from 'axios';
+import Loader from './loader';
 
 const Home = () => {
 
-    const [data, setData] = useState([
-        {
-            id: 'F3FEDACCCC', book: 'A flying kite', author: 'Khalid Hussain', rate: 4
-        },
-        {
-            id: 'F3FEDACCCC', book: 'A flying kite1', author: 'Khalid Hussain', rate: 3
-        },
-        {
-            id: 'F3FEDACCCC', book: 'A flying kite2', author: 'Khalid Hussain', rate: 5
-        },
-        {
-            id: 'F3FEDACCCC', book: 'A flying kite3', author: 'Khalid Hussain', rate: 2
-        },
-        { id: 'F3FEDACCCC', book: 'A flying kite4', author: 'Khalid Hussain', rate: 1 },
-    ])
+const [data, setData] = useState([])
+
+    useEffect(() => {
+        let fetchData = async () => {
+            try {
+                const dt = await axios.get("/data/data.json")
+                console.log('dtt', dt.data)
+                setData(dt.data)
+            } catch (err) {
+                console.error('Error fetching data:', err)
+            }
+        }
+        setTimeout(() => {
+            fetchData()
+        }, 1500);
+    }, [])
 
     const [value, setValue] = useState<number | null>(2);
     const [hover, setHover] = useState(-1);
+    const [search, setSearch] = useState("");
+
+    useEffect(() => { console.log('search useEffect performed') }, [search])
+
+    const handleSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
+        console.log('handleSearch', search)
+        setSearch("")
+    }
 
     return (
-        <div className='space-y-1'>
-            {data.map(v =>
+        <div className='space-y-1 px-2'>
+            <form className='flex space-x-2'>
+                <input placeholder='Search for book' className='border w-full p-1' value={search} onChange={e => setSearch(e.target.value)} />
+                <Button
+                    variant="contained"
+                    sx={{
+                        backgroundColor: '#EAB308',
+                        '&:hover': {
+                            backgroundColor: '#EAB30899',
+                        },
+                    }}
+                    className=' bg-yellow-500'
+                    onClick={handleSearch}
+                >
+                    Search
+                </Button>
+            </form>
+            {!data.length ? <Loader /> : data.map(v =>
                 <div key={v.id + v.rate} className='bg-tertiary flex justify-between items-center px-5 rounded-full' >
                     <div>
                         <p>{v.book.toUpperCase()}</p>
@@ -164,7 +187,7 @@ const Home = () => {
                 </div>
             )
             }
-        </div >
+        </div>
     )
 }
 
