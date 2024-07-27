@@ -85,12 +85,13 @@ const Form: React.FC<FormProps> = ({ isNew }) => {
 
     return (
         <div className='text-white sm:flex sm:flex-col md:flex-row justify-between items-center w-full h-screen'>
-            <div className='flex flex-col items-center justify-center bg-primary w-full h-64 sm:h-full bg-hero-pattern bg-cover bg-blend-soft-light'>
+            {/* <div className='flex flex-col items-center justify-center bg-primary w-[40%] lg:w-full h-64 sm:h-full bg-hero-pattern bg-cover bg-blend-soft-light'> */}
+            <div className='flex flex-col items-center justify-center bg-primary md:w-[40%] w-full h-64 sm:h-full bg-hero-pattern bg-cover bg-blend-soft-light'>
                 <h2 className='uppercase text-5xl backdrop-blur-sm p-10'>Review<small className='text-slate-600'> Books</small></h2>
                 <small className='mx-6 text-sm'>Spend your quality time with quality books after getting the contentful reviews.</small>
             </div>
-            <div className='justify-center sm:w-[60%] sm:h-full bg-tertiary text-black flex items-center'>
-                <div className='m-10 sm:m-6 md:m-20 lg:m-28 overflow-hidden'>
+            <div className='justify-center w-full md:w-[60%] sm:h-full bg-tertiary text-black flex items-center'>
+                <div className='m-10 w-full sm:m-6 md:m-10 lg:m-16 overflow-hidden'>
                     <h1 className='text-3xl font-bold tracking-tight'>{isNew ? 'Sign Up' : 'Log In'}</h1>
                     <div className='w-20 h-1 bg-primary mt-3'></div>
                     <div>
@@ -99,7 +100,7 @@ const Form: React.FC<FormProps> = ({ isNew }) => {
                             sx={{
                                 '& .MuiTextField-root': {
                                     m: 1,
-                                    width: { xs: '100%', sm: '40ch' }
+                                    width: { xs: '100%', sm: '100%' }
                                 }
                             }}
                             noValidate
