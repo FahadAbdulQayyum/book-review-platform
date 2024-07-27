@@ -89,14 +89,19 @@ const Form: React.FC<FormProps> = ({ isNew }) => {
                 <h2 className='uppercase text-5xl backdrop-blur-sm p-10'>Review<small className='text-slate-600'> Books</small></h2>
                 <small className='mx-6 text-sm'>Spend your quality time with quality books after getting the contentful reviews.</small>
             </div>
-            <div className='sm:w-[60%] sm:h-full bg-tertiary text-black flex items-center'>
+            <div className='justify-center sm:w-[60%] sm:h-full bg-tertiary text-black flex items-center'>
                 <div className='m-10 sm:m-6 md:m-20 lg:m-28 overflow-hidden'>
                     <h1 className='text-3xl font-bold tracking-tight'>{isNew ? 'Sign Up' : 'Log In'}</h1>
                     <div className='w-20 h-1 bg-primary mt-3'></div>
                     <div>
                         <Box
                             component="form"
-                            sx={{ '& .MuiTextField-root': { m: 1, width: '130ch' } }}
+                            sx={{
+                                '& .MuiTextField-root': {
+                                    m: 1,
+                                    width: { xs: '100%', sm: '40ch' }
+                                }
+                            }}
                             noValidate
                             autoComplete="off"
                         >
@@ -133,10 +138,13 @@ const Form: React.FC<FormProps> = ({ isNew }) => {
                                 type={showPassword ? "text" : "password"}
                                 InputProps={{
                                     endAdornment:
-                                        <InputAdornment position="end">
+                                        <InputAdornment position="end"
+                                        // className='flex'
+                                        >
                                             <IconButton
                                                 aria-label="toggle password visibility"
                                                 onClick={handleClickShowPassword}
+                                            // className='flex justify-start items-start'
                                             >
                                                 {showPassword ? <VisibilityOff /> : <Visibility />}
                                             </IconButton>
