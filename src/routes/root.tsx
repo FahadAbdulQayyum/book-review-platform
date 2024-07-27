@@ -15,7 +15,7 @@ export default function Root() {
 
     return (
         <>
-            <>
+            {/* <>
                 <button
                     aria-label="Increment value"
                     onClick={() => dispatch(increment())}
@@ -23,7 +23,7 @@ export default function Root() {
                     Increment
                 </button>
                 <span>{count}</span>
-            </>
+            </> */}
             <CustomNavbar />
             <Home />
         </>

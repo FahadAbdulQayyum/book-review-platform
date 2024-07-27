@@ -3,30 +3,85 @@
         "id": "F3FEDACCCC", 
         "book": "A flying kite", 
         "author": "Khalid Hussain", 
-        "rate": 4
+        "rate": 4,
+        "reviewed":"29%"
     },
     {
         "id": "F3FEDACCCC1", 
         "book": "A flying kite1", 
         "author": "Khalid Hussain1", 
-        "rate": 3
+        "rate": 3,
+        "reviewed":"39%"
     },
     {
         "id": "F3FEDACCCC2", 
         "book": "A flying kite2", 
         "author": "Khalid Hussain2", 
-        "rate": 2
+        "rate": 2,
+        "reviewed":"40%"
+
     },
     {
-        "id": "F3FEDACCCC2", 
+        "id": "F3FEDACCCC3", 
         "book": "Read Quran", 
         "author": "Noman Ali Khan", 
-        "rate": 5
+        "rate": 5,
+        "reviewed":"99%"
+    },
+    {
+        "id": "F3FEDACCCC4", 
+        "book": "Read Quran 1", 
+        "author": "Noman Ali Khan", 
+        "rate": 4,
+        "reviewed":"95%"
     },
     {
         "id": "F3FEDACCCC5", 
+        "book": "Read Quran 2", 
+        "author": "Noman Ali Khan", 
+        "rate": 4,
+        "reviewed":"97%"
+    },
+    {
+        "id": "F3FEDACCCC6", 
         "book": "A flying kite5", 
         "author": "Khalid Hussain5", 
-        "rate": 5
+        "rate": 5,
+        "reviewed":"65%"
+    },
+    {
+        "id": "F3FEDACCCC57", 
+        "book": "Never Came Back1", 
+        "author": "Fahad Abdul Qayyum", 
+        "rate": 3,
+        "reviewed":"75%"   
+    },
+    {
+        "id": "F3FEDACCCC7", 
+        "book": "Never Came Back2", 
+        "author": "Fahad Abdul Qayyum", 
+        "rate": 3,
+        "reviewed":"75%"   
+    },
+    {
+        "id": "F3FEDACCCC8", 
+        "book": "Never Came Back3", 
+        "author": "Fahad Abdul Qayyum", 
+        "rate": 3,
+        "reviewed":"75%"   
+    },
+    {
+        "id": "F3FEDACCCC9", 
+        "book": "Never Came Back", 
+        "author": "Fahad Abdul Qayyum", 
+        "rate": 4,
+        "reviewed":"75%"   
+    },
+    {
+        "id": "F3FEDACCC10", 
+        "book": "Never Came Back", 
+        "author": "Fahad Abdul Qayyum", 
+        "rate": 3,
+        "reviewed":"75%"   
     }
 ]

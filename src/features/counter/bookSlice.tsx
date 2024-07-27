@@ -7,11 +7,22 @@ type PayloadType = any;
 
 export const fetchBooks: AsyncThunk<PayloadType, void, {}> = createAsyncThunk(
     'books/fetchBooks',
-    async () => {
-        const response = await axios.get('/data/data.json');
-        // console.log('esponse,,,', resposnse.data)
-        // state.books.push(response.data)
-        return response.data;
+    async (_, { rejectWithValue }) => {
+        try {
+            console.log('>>><<<<<')
+            const response = await axios.get('data/data.json');
+            if (response.status === 200) {
+                // throw new Error('Server error!');
+                console.log(response.data);
+                return response.data;
+            }
+            console.log('Fetched data:', response.data);
+            return response.data;
+        } catch (err) {
+            // This will pass the error to fetchBooks.rejected and log it in state.error
+            console.error("An error occurred: ", err)
+            return rejectWithValue(err.message || 'Unable to fetch books');
+        }
     }
 );
 

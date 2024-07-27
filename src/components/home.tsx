@@ -1,225 +1,106 @@
-// import React, { useState } from 'react'
-// import Rating from '@mui/material/Rating';
-// import Box from '@mui/material/Box';
-// import StarIcon from '@mui/icons-material/Star';
-// import { styled } from '@mui/material/styles';
-// import FavoriteIcon from '@mui/icons-material/Favorite';
-// import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-// import Typography from '@mui/material/Typography';
-
-// const labels: { [index: string]: string } = {
-//     0.5: 'Useless',
-//     1: 'Useless+',
-//     1.5: 'Poor',
-//     2: 'Poor+',
-//     2.5: 'Ok',
-//     3: 'Ok+',
-//     3.5: 'Good',
-//     4: 'Good+',
-//     4.5: 'Excellent',
-//     5: 'Excellent+',
-// };
-
-// function getLabelText(value: number) {
-//     return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
-// }
-
-
-// const StyledRating = styled(Rating)({
-//     '& .MuiRating-iconFilled': {
-//         color: '#ff6d75',
-//     },
-//     '& .MuiRating-iconHover': {
-//         color: '#ff3d47',
-//     },
-// });
-
-// const Home = () => {
-
-//     const [data, setData] = useState([
-//         {
-//             userName: 'Fahad', book: 'A flying kite', author: 'Khalid Hussain', rate: 4
-//         },
-//         {
-//             userName: 'Fahad1', book: 'A flying kite1', author: 'Khalid Hussain', rate: 3
-//         },
-//         {
-//             userName: 'Fahad2', book: 'A flying kite2', author: 'Khalid Hussain', rate: 5
-//         },
-//         {
-//             userName: 'Fahad3', book: 'A flying kite3', author: 'Khalid Hussain', rate: 2
-//         },
-//         { userName: 'Fahad4', book: 'A flying kite4', author: 'Khalid Hussain', rate: 1 },
-//     ])
-
-//     const [value, setValue] = useState<number | null>(2);
-//     const [hover, setHover] = useState(-1);
-
-//     return (
-//         <div className='space-y-1'>
-//             {data.map(v =>
-//                 <div className='bg-primary flex justify-between items-center px-5'>
-//                     <div>
-//                         <h2>{v.userName}</h2>
-//                         <p>{v.book}</p>
-//                         <small>{v.author}</small>
-//                     </div>
-//                     <div>{v.rate}</div>
-//                     <Box
-//                         sx={{
-//                             '& > legend': { mt: 2 },
-//                         }}
-//                     >
-//                         <Typography component="legend">Custom icon and color</Typography>
-//                         <StyledRating
-//                             name="customized-color"
-//                             defaultValue={2}
-//                             getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}
-//                             precision={0.5}
-//                             icon={<FavoriteIcon fontSize="inherit" />}
-//                             emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
-//                         />
-//                         <Typography component="legend">10 stars</Typography>
-//                         <Rating name="customized-10" defaultValue={2} max={10} />
-//                     </Box>
-//                     {value !== null && (
-//                         <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
-//                     )}
-//                 </div>
-//             )}
-//         </div>
-//     )
-// }
-
-// export default Home
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import React, { useState, useEffect, ChangeEvent } from 'react'
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import axios from 'axios';
+import Pagination from '@mui/material/Pagination';
 import Loader from './loader';
-
 
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 import { fetchBooks } from '../features/counter/bookSlice';
 
 interface SearchProps {
-    id: string,
-    book: string,
-    author: string,
-    rate: number
+    id: string;
+    book: string;
+    author: string;
+    rate: number;
 }
 
 const Home = () => {
-
     const dispatch: AppDispatch = useDispatch();
     const books = useSelector((state: RootState) => state.books.books);
     const status = useSelector((state: RootState) => state.books.status);
     const error = useSelector((state: RootState) => state.books.error);
 
-    // const books = useSelector((state: RootState) => state.books.books);
-    // const books = useSelector((state: RootState) => state.books);
+    const [data, setData] = useState<SearchProps[]>([]);
+    const [displayData, setDisplayData] = useState<SearchProps[]>([]);
+    const [value, setValue] = useState<number | null>(2);
+    const [hover, setHover] = useState(-1);
+    const [search, setSearch] = useState("");
+    const [searchError, setSearchError] = useState("");
 
-    // const books = useSelector((state: SearchProps) => state);
-    // const status = useSelector((state: SearchProps) => state.books.status);
-    // const error = useSelector((state: SearchProps) => state.books.error);
-
+    // Pagination state
+    const [page, setPage] = useState(1);
+    const itemsPerPage = 5;
 
     useEffect(() => {
         if (status === 'idle') {
             dispatch(fetchBooks());
         }
-        console.log('booooookkkkkssss::::', books)
-    }, [status, dispatch]);
-
-
-    const [data, setData] = useState([])
-
-    let fetchData = async () => {
-        try {
-            const dt = await axios.get("/data/data.json")
-            console.log('dtt', dt.data)
-            setData(dt.data)
-        } catch (err) {
-            console.error('Error fetching data:', err)
-        }
-    }
+        console.log('books:', books);
+        // }, [status, dispatch]);
+    }, []);
 
     useEffect(() => {
-        setTimeout(() => {
-            fetchData()
-        }, 1500);
-    }, [])
+        console.log('books>>>:', books);
+        setData(books);
+        setPage(1);  // Reset to the first page when books are loaded
+    }, [books]);
 
-    const [value, setValue] = useState<number | null>(2);
-    const [hover, setHover] = useState(-1);
-    const [search, setSearch] = useState("");
+    useEffect(() => {
+        // Update display data when page or data changes
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        setDisplayData(data.slice(startIndex, endIndex));
+    }, [page, data]);
 
-    const [searchError, setSearchError] = useState("");
-
-
-    useEffect(() => { console.log('search useEffect performed') }, [search])
-
-    function validateInput(): boolean {
-        if (!search.length) {
-            return false
-        }
-        return true
-    }
+    const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
+        console.log('valueeee', value)
+        setPage(value);
+    };
 
     const handleSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault()
+        e.preventDefault();
         const isValid = validateInput();
 
         if (isValid) {
             console.log(`Search: ${search}`);
-
-            console.log('dataaaa', data, search)
-            let searchedData = data.filter((v: SearchProps) => v.author.toLowerCase().includes(search.toLowerCase()) || v.book.toLowerCase().includes(search.toLowerCase()))
-
-            setData(searchedData)
-
+            console.log('data:', data, search);
+            let searchedData = books.filter((v: SearchProps) =>
+                v.author.toLowerCase().includes(search.toLowerCase()) ||
+                v.book.toLowerCase().includes(search.toLowerCase())
+            );
+            setData(searchedData);
+            setPage(1); // Reset to the first page after search
+            console.log('searchedData:', searchedData);
         } else {
-            search.length === 0 && setSearchError("Type something to search")
+            search.length === 0 && setSearchError("Type something to search");
         }
 
-        console.log('handleSearch', search)
-        setSearch("")
-    }
+        console.log('handleSearch', search);
+        setSearch("");
+    };
 
     const onChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
-        fetchData()
         setSearch(e.target.value);
         if (e.target.value.length >= 6) {
-            setSearchError("")
+            setSearchError("");
         } else {
             setSearchError("Search should have more than 5 characters.");
         }
     };
 
+    const validateInput = (): boolean => {
+        if (!search.length) {
+            return false;
+        }
+        return true;
+    };
+
     return (
-        <div className='space-y-1 px-2 '>
+        <div className='space-y-1 px-2'>
             <Box
                 className='flex'
                 component="form"
@@ -259,7 +140,7 @@ const Home = () => {
                 </div>
             </Box>
             {
-                !data.length ? <Loader /> : data.map((v: SearchProps) =>
+                !displayData.length ? <Loader /> : displayData.map((v: SearchProps) =>
                     <div key={v.id + v.rate} className='bg-tertiary flex justify-between items-center px-5 rounded-full' >
                         <div>
                             <p>{v.book.toUpperCase()}</p>
@@ -271,7 +152,7 @@ const Home = () => {
                             value={v.rate}
                             precision={0.5}
                             onChange={(event, newValue) => {
-                                setValue(value);
+                                setValue(newValue);
                             }}
                             onChangeActive={(event, newHover) => {
                                 setHover(newHover);
@@ -279,9 +160,28 @@ const Home = () => {
                             emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                         />
                     </div>
-                )}
+                )
+            }
+            <Pagination
+                className='flex justify-center'
+                count={Math.ceil(data.length / itemsPerPage)}
+                page={page}
+                onChange={handlePageChange}
+                sx={{
+                    '& .MuiPaginationItem-root': {
+                        color: '#EAB308',
+                    },
+                    '& .MuiPaginationItem-page.Mui-selected': {
+                        backgroundColor: '#EAB308',
+                        color: '#ffffff',
+                    },
+                    '& .MuiPaginationItem-page:hover': {
+                        backgroundColor: '#EAB30899',
+                    },
+                }}
+            />
         </div>
-    )
+    );
 }
 
-export default Home
+export default Home;
