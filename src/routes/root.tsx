@@ -5,6 +5,7 @@ import Home from "../components/home";
 import { useSelector, useDispatch } from 'react-redux'
 import { decrement, increment } from '../features/counter/counterSlice'
 import { RootState } from "../store";
+import ReviewForm from "../components/reviewForm";
 
 
 export default function Root() {
@@ -24,6 +25,7 @@ export default function Root() {
                 </button>
                 <span>{count}</span>
             </> */}
+            <ReviewForm />
             <CustomNavbar />
             <Home />
         </>
