@@ -1,5 +1,10 @@
 {
   "files": [],
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.tsx",
+    "./src/redux-toolkit.d.ts"
+  ],
   "references": [
     {
       "path": "./tsconfig.app.json"

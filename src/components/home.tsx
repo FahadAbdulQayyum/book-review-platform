@@ -119,6 +119,11 @@ import Button from '@mui/material/Button';
 import axios from 'axios';
 import Loader from './loader';
 
+
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store';
+import { fetchBooks } from '../features/counter/bookSlice';
+
 interface SearchProps {
     id: string,
     book: string,
@@ -127,6 +132,27 @@ interface SearchProps {
 }
 
 const Home = () => {
+
+    const dispatch: AppDispatch = useDispatch();
+    const books = useSelector((state: RootState) => state.books.books);
+    const status = useSelector((state: RootState) => state.books.status);
+    const error = useSelector((state: RootState) => state.books.error);
+
+    // const books = useSelector((state: RootState) => state.books.books);
+    // const books = useSelector((state: RootState) => state.books);
+
+    // const books = useSelector((state: SearchProps) => state);
+    // const status = useSelector((state: SearchProps) => state.books.status);
+    // const error = useSelector((state: SearchProps) => state.books.error);
+
+
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fetchBooks());
+        }
+        console.log('booooookkkkkssss::::', books)
+    }, [status, dispatch]);
+
 
     const [data, setData] = useState([])
 
