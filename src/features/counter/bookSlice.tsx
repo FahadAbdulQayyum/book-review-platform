@@ -5,26 +5,36 @@ type PayloadType = any;
 interface FetchBooksParams {
     url: string;
     method: Method;
+    cookies?: string;
     data?: any;
+    headers?: Record<string, string>;
 }
 export const fetchData: AsyncThunk<PayloadType, FetchBooksParams, {}> = createAsyncThunk(
     'books/fetchBooks',
-    async ({ url, method, data }, { rejectWithValue }) => {
+    async ({ url, method, data, headers }, { rejectWithValue }) => {
+        let response = {
+            status: 200, data: null
+        }
         try {
-            const response = await axios({
+            response = await axios({
                 url,
                 method,
-                data
+                data,
+                headers,
+                withCredentials: true
             });
 
             if (response.status === 200) {
                 return response.data;
             }
-            return response.data;
+            // return response.data;
         } catch (err) {
-            console.error("An error occurred: ", err)
-            return rejectWithValue(err.message || 'Unable to fetch books');
+            console.error("An error occurred: ", err, err.response.data)
+            response.data = err.response.data
+            // return rejectWithValue(err.message || 'Unable to fetch books');
+            return response.data;
         }
+        return response.data;
     }
 );
 

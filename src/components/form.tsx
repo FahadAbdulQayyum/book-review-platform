@@ -14,14 +14,18 @@ import { fetchData } from '../features/counter/bookSlice';
 import { API } from '../config/constants';
 import Toast from './toast';
 
+import { useNavigate } from 'react-router-dom';
+
+
 interface FormProps {
     isNew?: boolean;
     isFor: string;
     additionalInputs?: string[]
 }
-interface BookResponse {
+export interface BookResponse {
     success: boolean;
     message: string;
+    token: string;
     data?: any; // Adjust the type based on your actual data structure
 }
 const Form: React.FC<FormProps> = ({ isNew, isFor }) => {
@@ -50,6 +54,7 @@ const Form: React.FC<FormProps> = ({ isNew, isFor }) => {
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState<'success' | 'error'>('success');
 
+    const navigate = useNavigate();
     const dispatch: AppDispatch = useDispatch();
     const books = useSelector((state: RootState) => state.books.books);
     const status = useSelector((state: RootState) => state.books.status);
@@ -203,8 +208,12 @@ const Form: React.FC<FormProps> = ({ isNew, isFor }) => {
                     const payload = resultAction.payload as BookResponse;
                     console.log('pyaloaddd...', payload)
                     if (payload.success) {
+                        localStorage.setItem('token', payload.token)
                         setMessage(payload.message);
                         setSeverity('success');
+                        setTimeout(() => {
+                            navigate('/');
+                        }, 1000);
                     } else {
                         setMessage(payload.message);
                         setSeverity('error');

@@ -10,6 +10,10 @@ import Loader from './loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 import { fetchData } from '../features/counter/bookSlice';
+import { BookResponse } from './form';
+
+import { useNavigate } from 'react-router-dom';
+import { API } from '../config/constants';
 
 interface SearchProps {
     id: string;
@@ -19,6 +23,7 @@ interface SearchProps {
 }
 
 const Home = () => {
+    const navigate = useNavigate();
     const dispatch: AppDispatch = useDispatch();
     const books = useSelector((state: RootState) => state.books.books);
     const status = useSelector((state: RootState) => state.books.status);
@@ -33,6 +38,36 @@ const Home = () => {
 
     const [page, setPage] = useState(1);
     const itemsPerPage = 5;
+
+    useEffect(() => {
+        const checkToken = async () => {
+            console.log('Tokennnn:', localStorage.getItem('token'));
+            // const data = { cookies: token }
+            // const data = { token: localStorage.getItem('token') }
+            if (status === 'idle') {
+                // const url = `${API}/api/user/auth`
+                const url = `http://localhost:3000/api/user/auth`
+                const resultAction = await dispatch(fetchData({
+                    url, method: 'GET',
+                    headers: {
+                        'Accept': '*/*',
+                        'Content-Type': 'application/json',
+                        'Authorization': `${localStorage.getItem('token')}`
+                    }
+                }));
+                if (fetchData.fulfilled.match(resultAction)) {
+                    const payload = resultAction.payload as BookResponse;
+                    console.log('payloadddd', payload)
+
+                    if (payload.success) { return console.log(".......passed") } else {
+                        console.log("....failed")
+                        return navigate('/login')
+                    }
+                }
+            }
+        }
+        checkToken()
+    }, []);
 
     useEffect(() => {
         if (status === 'idle') {
