@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -8,13 +8,23 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 import { Outlet, Link } from 'react-router-dom';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store';
+import { fetchData } from '../features/counter/bookSlice';
+import { API } from '../config/constants';
+import Toast from './toast';
+
 interface FormProps {
     isNew?: boolean;
     isFor: string;
     additionalInputs?: string[]
 }
-
-const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
+interface BookResponse {
+    success: boolean;
+    message: string;
+    data?: any; // Adjust the type based on your actual data structure
+}
+const Form: React.FC<FormProps> = ({ isNew, isFor }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
@@ -34,6 +44,16 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
     const [bookAuthorError, setBookAuthorError] = useState("");
     const [bookReviewTextError, setBookReviewTextError] = useState("");
     const [bookRatingError, setBookRatingError] = useState("");
+
+
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState('');
+    const [severity, setSeverity] = useState<'success' | 'error'>('success');
+
+    const dispatch: AppDispatch = useDispatch();
+    const books = useSelector((state: RootState) => state.books.books);
+    const status = useSelector((state: RootState) => state.books.status);
+    const error = useSelector((state: RootState) => state.books.error);
 
     const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
@@ -114,22 +134,53 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
     };
 
     function validateInput(): boolean {
+        if (isFor.replace(" ", "").toLowerCase() === "login") {
+            if (email.length < 5) {
+                return false
+            }
+
+            if (password.length < 5) {
+                return false
+            }
+
+            return true;
+        }
+
+        if (isFor.replace(" ", "").toLowerCase() === "signup") {
+            if (email.length < 5) {
+                return false
+            }
+
+            if (username.length < 5) {
+                return false
+            }
+
+            if (password.length < 5) {
+                return false
+            }
+
+            return true;
+        }
         if (!email.length && !emailRegex.test(email) && isFor.replace(" ", "").toLowerCase() !== "reviewform") {
             return false
         }
 
-        if (!(username.length > 5) && isFor.replace(" ", "").toLowerCase() !== "reviewform") {
+        if (username.length < 5 && isFor.replace(" ", "").toLowerCase() !== "reviewform") {
             return false
         }
 
-        if (!(password.length > 5) && isFor.replace(" ", "").toLowerCase() !== "reviewform") {
+        if (password.length < 5 && isFor.replace(" ", "").toLowerCase() !== "reviewform") {
             return false
         }
 
         return true;
     }
 
-    const handleSignUp = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleSignUp = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         const isValid = validateInput();
         if (isValid) {
@@ -143,6 +194,51 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
                 Book Review Text: ${bookReviewText},
                 Book Rating: ${bookRating},
                 `);
+
+            if (isFor.replace(" ", "").toLowerCase() === 'login') {
+                let data = { email, password }
+                const url = `${API}/api/user/login`
+                const resultAction = await dispatch(fetchData({ url, method: 'POST', data }));
+                if (fetchData.fulfilled.match(resultAction)) {
+                    const payload = resultAction.payload as BookResponse;
+                    console.log('pyaloaddd...', payload)
+                    if (payload.success) {
+                        setMessage(payload.message);
+                        setSeverity('success');
+                    } else {
+                        setMessage(payload.message);
+                        setSeverity('error');
+                    }
+                    setOpen(true);
+                } else {
+                    setMessage('Signup failed!');
+                    setOpen(true);
+                }
+
+            }
+
+            if (isFor.replace(" ", "").toLowerCase() === 'signup') {
+
+                const url = `${API}/api/user/signup`
+                let data = { email, password, name: username }
+
+                const resultAction = await dispatch(fetchData({ url, method: 'POST', data }));
+
+                if (fetchData.fulfilled.match(resultAction)) {
+                    const payload = resultAction.payload as BookResponse;
+                    if (payload.success) {
+                        setMessage(payload.message);
+                        setSeverity('success');
+                    } else {
+                        setMessage(payload.message);
+                        setSeverity('error');
+                    }
+                    setOpen(true);
+                } else {
+                    setMessage('Signup failed!');
+                    setOpen(true);
+                }
+            }
 
             setEmail("")
             setUsername("")
@@ -189,7 +285,7 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
                             autoComplete="off"
                         >
                             {/* {isNew && <TextField */}
-                            {(isFor.replace(" ", "").toLowerCase() === 'signup' && isFor.replace(" ", "").toLowerCase() !== 'reviewform') && <TextField
+                            {((isFor.replace(" ", "").toLowerCase() === 'signup' || isFor.replace(" ", "").toLowerCase() === 'login') && isFor.replace(" ", "").toLowerCase() !== 'reviewform') && <TextField
                                 error={emailError !== ""}
                                 helperText={emailError}
                                 id="email-field"
@@ -200,7 +296,7 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
                                 required
                             />}
                             <br />
-                            {isFor.replace(" ", "").toLowerCase() !== 'reviewform' && <TextField
+                            {isFor.replace(" ", "").toLowerCase() === 'signup' && isFor.replace(" ", "").toLowerCase() !== 'reviewform' && <TextField
                                 error={usernameError !== ""}
                                 helperText={usernameError}
                                 id="username-field"
@@ -318,6 +414,7 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
                                 {/* <small>{!isNew ? 'Not registered yet?' : 'Already registered?'} <a href={isNew ? '/login' : '/signup'}>{isNew ? 'Login' : 'Signup'}</a></small> */}
                                 <small>{isFor.replace(" ", "").toLowerCase() === "login" ? 'Not registered yet?' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Already registered?' : ""} <Link to={isFor.replace(" ", "").toLowerCase() === "login" ? '/signup' : isFor.replace(" ", "").toLowerCase() === "signup" ? '/login' : ""}>{isFor.replace(" ", "").toLowerCase() === "login" ? 'Signup' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Login' : ""}</Link></small>
                             </div>
+                            <Toast open={open} message={message} onClose={handleClose} severity={severity} />
                         </Box>
                     </div>
                 </div>

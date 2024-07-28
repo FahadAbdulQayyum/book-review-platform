@@ -1,21 +1,25 @@
 import { AsyncThunk, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios, { Method } from 'axios';
 
 type PayloadType = any;
 interface FetchBooksParams {
     url: string;
+    method: Method;
+    data?: any;
 }
 export const fetchData: AsyncThunk<PayloadType, FetchBooksParams, {}> = createAsyncThunk(
     'books/fetchBooks',
-    async ({ url }, { rejectWithValue }) => {
+    async ({ url, method, data }, { rejectWithValue }) => {
         try {
-            // const response = await axios.get('data/data.json');
-            const response = await axios.get(url);
+            const response = await axios({
+                url,
+                method,
+                data
+            });
+
             if (response.status === 200) {
-                console.log(response.data);
                 return response.data;
             }
-            console.log('Fetched data:', response.data);
             return response.data;
         } catch (err) {
             console.error("An error occurred: ", err)
