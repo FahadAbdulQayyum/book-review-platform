@@ -68,6 +68,10 @@ const MyReview = () => {
             setMessage('Deleted Successfully!');
             setSeverity('success');
             setOpen(true)
+            setTimeout(() => {
+                setOpen(false)
+                window.location.reload();
+            }, 1000);
         }
     }
 
