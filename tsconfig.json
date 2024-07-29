@@ -1,16 +1,41 @@
 {
-  "files": [],
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.tsx",
-    "./src/redux-toolkit.d.ts"
-  ],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.node.json"
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "strict": true,
+    "jsx": "react-jsx", // or "react" if you're using older React versions
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "paths": {
+      "*": [
+        "node_modules/*"
+      ]
     }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
   ]
 }
+// {
+//   "files": [],
+//   "include": [
+//     "./src/**/*.ts",
+//     "./src/**/*.tsx",
+//     "./src/redux-toolkit.d.ts"
+//   ],
+//   "references": [
+//     {
+//       "path": "./tsconfig.app.json"
+//     },
+//     {
+//       "path": "./tsconfig.node.json"
+//     }
+//   ]
+// }
