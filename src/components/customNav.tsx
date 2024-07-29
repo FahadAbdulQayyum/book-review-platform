@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Img from '../assets/book-logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt, faSignOutAlt, faPlus, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -13,12 +13,23 @@ const CustomNavbar = () => {
     const toggleSearch = () => setIsSearchVisible(!isSearchVisible);
     // const toggleDropdown = () => setIsDropdownVisible(!isDropdownVisible);
     const [menuVisible, setMenuVisible] = useState(false);
+    const [isLoggedIn, setLoggedIn] = useState(localStorage.getItem('token')!!);
 
     const handleMenuToggle = () => {
         // Toggle the state between true and false
         setMenuVisible(!menuVisible);
         console.log("let see")
     };
+
+    useEffect(() => {
+        console.log('isLoggedIn...', isLoggedIn)
+    }, [isLoggedIn])
+
+    const logOut = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        setLoggedIn("");
+    }
 
     return (
         <div>
@@ -38,8 +49,6 @@ const CustomNavbar = () => {
                             </svg>
                             <span className="sr-only">Search</span>
                         </button>
-                        {/* <div className="relative hidden md:block"> */}
-                        {/* <div className={`relative ${isSearchVisible ? "scale-100" : "scale-0"} transition-all transform duration-300 ease-in-out md:block`}> */}
                         <div className={`relative ${isSearchVisible ? 'block' : 'hidden'} transition duration-1000 ease-in-out md:block`}>
                             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                 <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -49,17 +58,18 @@ const CustomNavbar = () => {
                             </div>
                             <input type="text" id="search-navbar" className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..." />
                         </div>
-                        {/* <button type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" onClick={toggleSearch} className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1"> */}
-                        {/* <a href='/reviewform' className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1"> */}
-                        {localStorage.getItem('token') !== null && <Link to='/reviewform' className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1">
+                        {localStorage.getItem('token') && [localStorage.getItem('token')].length > 0 && <Link to='/reviewform' className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1">
+                            {/* {(localStorage.getItem('token') !== null || localStorage.getItem('token') !== undefined) && <Link to='/reviewform' className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1"> */}
                             <FontAwesomeIcon icon={faPlus} />
                         </Link>}
                         {/* </button> */}
                         {/* <button type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" onClick={toggleSearch} className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 "> */}
                         <Link to='/login' className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1">
 
-                            {!localStorage.getItem('token') !== null ? <FontAwesomeIcon icon={faSignInAlt} />
-                                : <FontAwesomeIcon icon={faSignOutAlt} onClick={() => localStorage.setItem('token', '')} />}
+                            {localStorage.getItem('token') === null ? <FontAwesomeIcon icon={faSignInAlt} />
+                                // : <FontAwesomeIcon icon={faSignOutAlt} onClick={() => localStorage.setItem('token', '')} />}
+                                : <FontAwesomeIcon icon={faSignOutAlt} onClick={logOut} />}
+                            {/* : <FontAwesomeIcon icon={faSignOutAlt} onClick={() => localStorage.removeItem('token')} />} */}
                         </Link>
                         {localStorage.getItem('token') !== null && <Link to="/myprofile" className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1" ><FontAwesomeIcon icon={faUser} /></Link>}
                         {/* </button> */}
