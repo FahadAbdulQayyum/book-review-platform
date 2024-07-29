@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
-import { decrement, increment } from '../features/counter/counterSlice';
+import { increment } from '../features/counter/counterSlice';
 
 const CustomNavbar = () => {
 
