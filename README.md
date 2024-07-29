@@ -120,3 +120,5 @@ Contributions are welcome! If you have suggestions or improvements, please open 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+![Screenshots](Screenshot 2024-07-30 012352.png)
