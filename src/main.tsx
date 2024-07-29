@@ -12,16 +12,16 @@ import {
 } from "react-router-dom";
 import './index.css'
 import ErrorPage from './components/error-page'
-import Login from './components/login.tsx';
-import SignUp from './components/signup.tsx';
+import Login from './components/login';
+import SignUp from './components/signup';
 import { store } from './store';
 import { Provider } from 'react-redux';
-import CustomNavbar from './components/customNav.tsx';
-import ReviewForm from './components/reviewForm.tsx';
-import Layout from './layout.tsx';
-import MyReview from './components/myReview.tsx';
-import ReviewForme from './components/reviewForme.tsx';
-import MyProfile from './components/myProfile.tsx';
+import CustomNavbar from './components/customNav';
+import ReviewForm from './components/reviewForm';
+import Layout from './layout';
+import MyReview from './components/myReview';
+import ReviewForme from './components/reviewForme';
+import MyProfile from './components/myProfile';
 
 const router = createBrowserRouter([
   //   {
