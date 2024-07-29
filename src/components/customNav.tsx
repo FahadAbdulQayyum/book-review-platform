@@ -8,10 +8,10 @@ import { Link } from 'react-router-dom';
 const CustomNavbar = () => {
 
     const [isSearchVisible, setIsSearchVisible] = useState(false);
-    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+    // const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
     const toggleSearch = () => setIsSearchVisible(!isSearchVisible);
-    const toggleDropdown = () => setIsDropdownVisible(!isDropdownVisible);
+    // const toggleDropdown = () => setIsDropdownVisible(!isDropdownVisible);
     const [menuVisible, setMenuVisible] = useState(false);
 
     const handleMenuToggle = () => {

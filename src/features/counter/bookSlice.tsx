@@ -1,5 +1,5 @@
 import { AsyncThunk, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios, { Method } from 'axios';
+import axios, { AxiosError, Method } from 'axios';
 
 type PayloadType = any;
 interface FetchBooksParams {
@@ -9,9 +9,23 @@ interface FetchBooksParams {
     data?: any;
     headers?: Record<string, string>;
 }
+
+interface State {
+    books: any[];
+    status: string;
+    error: string | null; // Update the type to allow both string and null
+}
+
+const initialState: State = {
+    books: [],
+    status: 'idle',
+    error: null,
+};
+
 export const fetchData: AsyncThunk<PayloadType, FetchBooksParams, {}> = createAsyncThunk(
     'books/fetchBooks',
-    async ({ url, method, data, headers }, { rejectWithValue }) => {
+    // async ({ url, method, data, headers }, { rejectWithValue }) => {
+    async ({ url, method, data, headers }) => {
         let response = {
             status: 200, data: null
         }
@@ -29,10 +43,12 @@ export const fetchData: AsyncThunk<PayloadType, FetchBooksParams, {}> = createAs
             }
             // return response.data;
         } catch (err) {
-            console.error("An error occurred: ", err, err.response.data)
-            response.data = err.response.data
-            // return rejectWithValue(err.message || 'Unable to fetch books');
-            return response.data;
+            if (err instanceof AxiosError) {
+                // console.error("An error occurred: ", err, err.response.data)
+                response.data = err.response?.data
+                // return rejectWithValue(err.message || 'Unable to fetch books');
+                return response.data;
+            }
         }
         return response.data;
     }
@@ -40,7 +56,8 @@ export const fetchData: AsyncThunk<PayloadType, FetchBooksParams, {}> = createAs
 
 export const bookSlice = createSlice({
     name: 'books',
-    initialState: { books: [], status: 'idle', error: null },
+    // initialState: { books: [], status: 'idle', error: null },
+    initialState,
     reducers: {
     },
     extraReducers: (builder) => {
@@ -54,7 +71,8 @@ export const bookSlice = createSlice({
             })
             .addCase(fetchData.rejected, (state, action) => {
                 state.status = 'idle';
-                state.error = action.error.message || 'Unexpected error occurred';
+                // state.error = action.error.message ? action.error.message : 'Unexpected error occurred';
+                state.error = action.error.message ? action.error.message : null;
             });
     },
 })

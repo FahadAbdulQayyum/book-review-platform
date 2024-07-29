@@ -1,9 +1,10 @@
-import { useState, CSSProperties } from "react";
+import { useState } from "react";
 import { BounceLoader } from "react-spinners";
 
 function Loader() {
     let [loading, setLoading] = useState(true);
-    let [color, setColor] = useState("#EAB308");
+    let [color] = useState("#EAB308");
+    // let [color, setColor] = useState("#EAB308");
 
     return (
         <div className="sweet-loading flex justify-center items-center h-screen">
