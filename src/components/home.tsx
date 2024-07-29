@@ -82,7 +82,7 @@ const Home = () => {
 
         if (isInitialMount.current) {
             isInitialMount.current = false;
-            checkToken();
+            // checkToken();
         }
     }, [dispatch, navigate, status]);
 
@@ -104,6 +104,7 @@ const Home = () => {
                 setData(payload.data);
             }
         }
+        console.log("fetchdata if ....")
     };
 
 
@@ -113,7 +114,7 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
-        if (Array.isArray(books) && books.length > 0) {
+        if (Array.isArray(books) && books?.length > 0) {
             setData(books);
             setPage(1);
         }
@@ -147,7 +148,7 @@ const Home = () => {
             setData(searchedData);
             setPage(1);
         } else {
-            search.length === 0 && setSearchError("Type something to search");
+            search?.length === 0 && setSearchError("Type something to search");
         }
         setSearch("");
     };
@@ -158,7 +159,7 @@ const Home = () => {
             setSearching(false)
         }
         setSearch(e.target.value);
-        if (e.target.value.length >= 6) {
+        if (e.target.value?.length >= 6) {
             setSearchError("");
         } else {
             setSearchError("Search should have more than 5 characters.");
@@ -166,7 +167,7 @@ const Home = () => {
     };
 
     const validateInput = (): boolean => {
-        if (!search.length) {
+        if (!search?.length) {
             return false;
         }
         return true;
@@ -217,7 +218,7 @@ const Home = () => {
                 </div>
             </Box>
             {
-                !displayData.length ? <Loader /> : displayData.map((v: SearchProps) =>
+                !displayData?.length ? <Loader /> : displayData.map((v: SearchProps) =>
                     <div key={v._id} className='bg-tertiary flex justify-between items-center px-5 rounded-full' >
                         <div>
                             <p>{v.bookName ? v.bookName.toUpperCase() : ''}</p>
@@ -242,7 +243,7 @@ const Home = () => {
             }
             <Pagination
                 className='flex justify-center'
-                count={Math.ceil(data.length / itemsPerPage)}
+                count={Math.ceil(data?.length / itemsPerPage)}
                 page={page}
                 onChange={handlePageChange}
                 sx={{
