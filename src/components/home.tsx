@@ -42,8 +42,8 @@ const Home = () => {
     const [searchError, setSearchError] = useState("");
 
     const [open, setOpen] = useState(false);
-    const [message, setMessage] = useState("");
-    const [severity, setSeverity] = useState<'success' | 'error'>('success');
+    const [message,] = useState("");
+    const [severity,] = useState<'success' | 'error'>('success');
 
     const [page, setPage] = useState(1);
 
@@ -230,9 +230,11 @@ const Home = () => {
                             value={+v.bookRating}
                             precision={0.5}
                             onChange={(event, newValue) => {
+                                console.log('event0', event)
                                 setValue(newValue);
                             }}
                             onChangeActive={(event, newHover) => {
+                                console.log('event1', event)
                                 setHover(newHover);
                             }}
                             emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
