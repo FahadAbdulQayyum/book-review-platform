@@ -1,6 +1,8 @@
-# Book-RV
+# Book-Review-Platform-Client
 
-**Book-RV** is a modern web application built using the latest technologies to provide a seamless and interactive experience for managing and browsing books.
+production url: https://book-review-platform-gold.vercel.app/
+
+**Book-Review-Platform-Client** is a modern web application built using the latest technologies to provide a seamless and interactive experience for managing and browsing books.
 
 ## Table of Contents
 
@@ -15,7 +17,7 @@
 
 ## Project Overview
 
-Book-RV is developed with the following technologies:
+Book-Review-Platform-Client is developed with the following technologies:
 
 - **React**: For building the user interface.
 - **Vite**: For fast development and build processes.
