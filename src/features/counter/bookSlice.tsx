@@ -10,17 +10,32 @@ interface FetchBooksParams {
     headers?: Record<string, string>;
 }
 
-interface State {
+export interface BookState {
+    // Define your state here
+    value: number;
     books: any[];
     status: string;
-    error: string | null; // Update the type to allow both string and null
+    error: string | null;
 }
 
-const initialState: State = {
+const initialState: BookState = {
+    value: 0,
     books: [],
     status: 'idle',
-    error: null,
+    error: null
 };
+
+// interface State {
+//     books: any[];
+//     status: string;
+//     error: string | null; // Update the type to allow both string and null
+// }
+
+// const initialState: State = {
+//     books: [],
+//     status: 'idle',
+//     error: null,
+// };
 
 export const fetchData: AsyncThunk<PayloadType, FetchBooksParams, {}> = createAsyncThunk(
     'books/fetchBooks',
