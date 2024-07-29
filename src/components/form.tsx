@@ -39,6 +39,15 @@ export interface BookResponse {
     user?: { _id: string }
     data?: any;
 }
+export interface ProfileResponse extends BookResponse {
+    // email: string;
+    // username: string;
+    user: {
+        _id: string;
+        email: string;
+        name: string;
+    }
+}
 const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");
@@ -71,6 +80,36 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
     const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
     useEffect(() => {
+        if (isFor.replace(" ", "").toLowerCase() === "updateprofile") {
+            const checkToken = async () => {
+                const url = `${API}/api/user/auth`;
+                const resultAction = await dispatch(fetchData({
+                    url, method: 'GET',
+                    headers: {
+                        'Accept': '*/*',
+                        'Content-Type': 'application/json',
+                        'Authorization': `${localStorage.getItem('token')}`
+                    }
+                }));
+                if (fetchData.fulfilled.match(resultAction)) {
+                    const payload = resultAction.payload as ProfileResponse;
+                    console.log(".......paylaod", payload);
+                    setEmail(payload.user.email)
+                    setUsername(payload.user.name)
+                    if (payload.success) {
+                        console.log(".......passed");
+                    } else {
+                        setMessage('Login First!');
+                        setSeverity('error');
+                        setTimeout(() => {
+                            navigate('/login');
+                        }, 1000);
+                        setOpen(true);
+                    }
+                }
+            };
+            checkToken()
+        }
         if (additionalInputs) {
             setBookName(additionalInputs.bookName)
             setBookId(additionalInputs.bookId)
@@ -228,7 +267,6 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
                 const resultAction = await dispatch(fetchData({ url, method: 'POST', data }));
                 if (fetchData.fulfilled.match(resultAction)) {
                     const payload = resultAction.payload as BookResponse;
-                    console.log('pyaloaddd...', payload)
                     if (payload.success) {
                         localStorage.setItem('token', payload.token)
                         localStorage.setItem('userId', payload.user?._id ?? 'undefined')
@@ -288,7 +326,6 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
                 }));
                 if (fetchData.fulfilled.match(resultAction)) {
                     const payload = resultAction.payload as BookResponse;
-                    console.log('pyaloaddd...', payload)
                     if (payload.success) {
                         setMessage(payload.message);
                         setSeverity('success');
@@ -309,13 +346,10 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
 
             if (isFor.replace(" ", "").toLowerCase() === 'reviewforme') {
 
-                console.log('reviewforme clled...')
                 let data = {
                     bookName, bookId, bookAuthor, bookReviewText, bookRating, userId: localStorage.getItem('userId')
                 }
-                console.log('id...', id)
                 const url = `${API}/api/review/update/${id}`
-                console.log('urrrlll...', url)
                 const resultAction = await dispatch(fetchData({
                     url, method: 'PUT', data, headers: {
                         'Accept': '*/*',
@@ -325,7 +359,6 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
                 }));
                 if (fetchData.fulfilled.match(resultAction)) {
                     const payload = resultAction.payload as BookResponse;
-                    console.log('pyaloaddd...', payload)
                     if (payload.success) {
                         setMessage(payload.message);
                         setSeverity('success');
@@ -346,7 +379,6 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
 
             if (isFor.replace(" ", "").toLowerCase() === 'updateprofile') {
 
-                console.log('updateprofile clled...')
                 let data = {
                     email, username
                 }
@@ -543,7 +575,7 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
                     </div>
                 </div>
             </div >
-        </div >
+        </div>
     )
 }
 
