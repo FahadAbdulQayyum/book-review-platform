@@ -113,6 +113,43 @@ Ensure you have Node.js and npm installed. The project uses Vite for fast builds
 
 There are whole journey provided in the form on iamges in this project's root directory named as Screenshoots.
 
+1. 
+<img src="./Screenshoots/Screenshot 2024-07-30 012352.png" width="128"/>
+2.
+<img src="./Screenshoots/Screenshot 2024-07-30 012421.png" width="128"/>
+3.
+<img src="./Screenshoots/Screenshot 2024-07-30 012505.png" width="128"/>
+4.
+<img src="./Screenshoots/Screenshot 2024-07-30 012524.png" width="128"/>
+5.
+<img src="./Screenshoots/Screenshot 2024-07-30 012825.png" width="128"/>
+6.
+<img src="./Screenshoots/Screenshot 2024-07-30 012958.png" width="128"/>
+7.
+<img src="./Screenshoots/Screenshot 2024-07-30 013028.png" width="128"/>
+8.
+<img src="./Screenshoots/Screenshot 2024-07-30 013053.png" width="128"/>
+8.
+<img src="./Screenshoots/Screenshot 2024-07-30 013115.png" width="128"/>
+9.
+<img src="./Screenshoots/Screenshot 2024-07-30 013240.png" width="128"/>
+10.
+<img src="./Screenshoots/Screenshot 2024-07-30 013259.png" width="128"/>
+11.
+<img src="./Screenshoots/Screenshot 2024-07-30 013319.png" width="128"/>
+12.
+<img src="./Screenshoots/Screenshot 2024-07-30 013343.png" width="128"/>
+13.
+<img src="./Screenshoots/Screenshot 2024-07-30 013401.png" width="128"/>
+14.
+<img src="./Screenshoots/Screenshot 2024-07-30 013449.png" width="128"/>
+15.
+<img src="./Screenshoots/Screenshot 2024-07-30 013717.png" width="128"/>
+16.
+<img src="./Screenshoots/Screenshot 2024-07-30 013808.png" width="128"/>
+17.
+<img src="./Screenshoots/Screenshot 2024-07-30 014450.png" width="128"/>
+
 ## Contributing
 
 Contributions are welcome! If you have suggestions or improvements, please open an issue or submit a pull request. Ensure that your code adheres to the existing style and passes all linting checks.
@@ -121,4 +158,3 @@ Contributions are welcome! If you have suggestions or improvements, please open 
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-<img src="./Screenshoots/Screenshot 2024-07-30 012352.png" width="128"/>
