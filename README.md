@@ -109,6 +109,10 @@ npm run lint
 
 Ensure you have Node.js and npm installed. The project uses Vite for fast builds and hot module replacement, along with TypeScript for static typing.
 
+## Working Of Project
+
+There are whole journey provided in the form on iamges in this project's root directory named as Screenshoots.
+
 ## Contributing
 
 Contributions are welcome! If you have suggestions or improvements, please open an issue or submit a pull request. Ensure that your code adheres to the existing style and passes all linting checks.
