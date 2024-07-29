@@ -39,7 +39,7 @@ export interface BookResponse {
     user?: { _id: string }
     data?: any; // Adjust the type based on your actual data structure
 }
-const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
+const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
@@ -68,9 +68,9 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
 
     const navigate = useNavigate();
     const dispatch: AppDispatch = useDispatch();
-    const books = useSelector((state: RootState) => state.books.books);
-    const status = useSelector((state: RootState) => state.books.status);
-    const error = useSelector((state: RootState) => state.books.error);
+    // const books = useSelector((state: RootState) => state.books.books);
+    // const status = useSelector((state: RootState) => state.books.status);
+    // const error = useSelector((state: RootState) => state.books.error);
 
     const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
