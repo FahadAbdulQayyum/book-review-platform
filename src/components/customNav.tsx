@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Img from '../assets/book-logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt, faSignOutAlt, faPlus } from '@fortawesome/free-solid-svg-icons';

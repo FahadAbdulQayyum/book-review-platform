@@ -1,4 +1,3 @@
-import React from 'react'
 import Form from './form'
 import { useLocation } from 'react-router-dom';
 

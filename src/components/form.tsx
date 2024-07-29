@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
-import { Outlet, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
@@ -17,10 +17,19 @@ import Toast from './toast';
 import { useNavigate } from 'react-router-dom';
 
 
+interface updateDataInfo {
+    bookName: string;
+    bookId: string;
+    bookAuthor: string;
+    bookReviewText: string;
+    bookRating: string;
+    _id: string;
+}
+
 interface FormProps {
     isNew?: boolean;
     isFor: string;
-    additionalInputs?: string[]
+    additionalInputs?: updateDataInfo
 }
 export interface BookResponse {
     success: boolean;
@@ -38,7 +47,7 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
     const [bookId, setBookId] = useState("");
     const [bookAuthor, setBookAuthor] = useState("");
     const [bookReviewText, setBookReviewText] = useState("");
-    const [bookRating, setBookRating] = useState("");
+    const [bookRating, setBookRating] = useState<number>(0);
     const [id, setId] = useState("");
 
     // Initialize error states
@@ -117,7 +126,7 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
     };
 
     const onChangeBookRating = (e: ChangeEvent<HTMLInputElement>) => {
-        setBookRating(e.target.value);
+        setBookRating(+e.target.value);
         if (!bookRating) {
             setBookRatingError("");
         } else {
@@ -238,7 +247,7 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
                     console.log('pyaloaddd...', payload)
                     if (payload.success) {
                         localStorage.setItem('token', payload.token)
-                        localStorage.setItem('userId', payload.user._id)
+                        localStorage.setItem('userId', payload.user?._id ?? 'undefined')
                         setMessage(payload.message);
                         setSeverity('success');
                         setTimeout(() => {
@@ -359,7 +368,7 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
             setBookId("")
             setBookAuthor("")
             setBookReviewText("")
-            setBookRating("")
+            setBookRating(0)
 
         } else {
             email.length === 0 && setEmailError("Enter your email")
@@ -369,7 +378,7 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
             bookId.length === 0 && setBookIdError("Enter book id")
             bookAuthor.length === 0 && setBookAuthorError("Enter Author name")
             bookReviewText.length === 0 && setBookReviewTextError("Type your reviews")
-            bookRating.length === 0 && setBookRatingError("Enter your ratings")
+            bookRating === 0 && setBookRatingError("Enter your ratings")
         }
     };
 
