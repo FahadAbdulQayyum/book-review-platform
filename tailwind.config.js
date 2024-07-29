@@ -1,3 +1,5 @@
+const imageUrl = new URL('./src/assets/books.jpeg', import.meta.url).href;
+
 module.exports = {
   content: [
     "./index.html",
@@ -18,7 +20,7 @@ module.exports = {
       }
     },
     backgroundImage: {
-      'hero-pattern': "url('/assets/books.jpeg')",
+      'hero-pattern': `url('${imageUrl}')`,
     }
   },
   plugins: [],
