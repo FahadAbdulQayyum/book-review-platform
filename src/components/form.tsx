@@ -26,6 +26,7 @@ export interface BookResponse {
     success: boolean;
     message: string;
     token: string;
+    user?: { _id: string }
     data?: any; // Adjust the type based on your actual data structure
 }
 const Form: React.FC<FormProps> = ({ isNew, isFor }) => {
@@ -209,6 +210,7 @@ const Form: React.FC<FormProps> = ({ isNew, isFor }) => {
                     console.log('pyaloaddd...', payload)
                     if (payload.success) {
                         localStorage.setItem('token', payload.token)
+                        localStorage.setItem('userId', payload.user._id)
                         setMessage(payload.message);
                         setSeverity('success');
                         setTimeout(() => {
@@ -247,6 +249,42 @@ const Form: React.FC<FormProps> = ({ isNew, isFor }) => {
                     setMessage('Signup failed!');
                     setOpen(true);
                 }
+            }
+
+            if (isFor.replace(" ", "").toLowerCase() === 'reviewform') {
+
+                let data = {
+                    bookName, bookId, bookAuthor, bookReviewText, bookRating, userId: localStorage.getItem('userId')
+                }
+                const url = `${API}/api/review/add`
+                // const resultAction = await dispatch(fetchData({ url, method: 'POST', data }));
+                const resultAction = await dispatch(fetchData({
+                    url, method: 'POST', data, headers: {
+                        'Accept': '*/*',
+                        'Content-Type': 'application/json',
+                        'Authorization': `${localStorage.getItem('token')}`
+                    }
+                }));
+                if (fetchData.fulfilled.match(resultAction)) {
+                    const payload = resultAction.payload as BookResponse;
+                    console.log('pyaloaddd...', payload)
+                    if (payload.success) {
+                        localStorage.setItem('token', payload.token)
+                        setMessage(payload.message);
+                        setSeverity('success');
+                        setTimeout(() => {
+                            navigate('/');
+                        }, 1000);
+                    } else {
+                        setMessage(payload.message);
+                        setSeverity('error');
+                    }
+                    setOpen(true);
+                } else {
+                    setMessage('Signup failed!');
+                    setOpen(true);
+                }
+
             }
 
             setEmail("")
