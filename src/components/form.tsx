@@ -29,7 +29,7 @@ export interface BookResponse {
     user?: { _id: string }
     data?: any; // Adjust the type based on your actual data structure
 }
-const Form: React.FC<FormProps> = ({ isNew, isFor }) => {
+const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
@@ -39,6 +39,7 @@ const Form: React.FC<FormProps> = ({ isNew, isFor }) => {
     const [bookAuthor, setBookAuthor] = useState("");
     const [bookReviewText, setBookReviewText] = useState("");
     const [bookRating, setBookRating] = useState("");
+    const [id, setId] = useState("");
 
     // Initialize error states
     const [usernameError, setUsernameError] = useState("");
@@ -62,6 +63,18 @@ const Form: React.FC<FormProps> = ({ isNew, isFor }) => {
     const error = useSelector((state: RootState) => state.books.error);
 
     const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+
+    useEffect(() => {
+        if (additionalInputs) {
+            console.log('addtionalInputssss...', additionalInputs)
+            setBookName(additionalInputs.bookName)
+            setBookId(additionalInputs.bookId)
+            setBookAuthor(additionalInputs.bookAuthor)
+            setBookReviewText(additionalInputs.bookReviewText)
+            setBookRating(+additionalInputs.bookRating)
+            setId(additionalInputs._id)
+        }
+    }, [])
 
     const handleClickShowPassword = () => {
         setShowPassword((showPassword) => !showPassword);
@@ -167,6 +180,21 @@ const Form: React.FC<FormProps> = ({ isNew, isFor }) => {
 
             return true;
         }
+        if (isFor.replace(" ", "").toLowerCase() === "reviewforme") {
+            // if (email.length < 5) {
+            //     return false
+            // }
+
+            // if (username.length < 5) {
+            //     return false
+            // }
+
+            // if (password.length < 5) {
+            //     return false
+            // }
+
+            return true;
+        }
         if (!email.length && !emailRegex.test(email) && isFor.replace(" ", "").toLowerCase() !== "reviewform") {
             return false
         }
@@ -269,12 +297,49 @@ const Form: React.FC<FormProps> = ({ isNew, isFor }) => {
                     const payload = resultAction.payload as BookResponse;
                     console.log('pyaloaddd...', payload)
                     if (payload.success) {
-                        localStorage.setItem('token', payload.token)
                         setMessage(payload.message);
                         setSeverity('success');
                         setTimeout(() => {
                             navigate('/');
-                        }, 1000);
+                        }, 2000);
+                    } else {
+                        setMessage(payload.message);
+                        setSeverity('error');
+                    }
+                    setOpen(true);
+                } else {
+                    setMessage('Signup failed!');
+                    setOpen(true);
+                }
+
+            }
+
+            if (isFor.replace(" ", "").toLowerCase() === 'reviewforme') {
+
+                console.log('reviewforme clled...')
+                let data = {
+                    bookName, bookId, bookAuthor, bookReviewText, bookRating, userId: localStorage.getItem('userId')
+                }
+                console.log('id...', id)
+                const url = `${API}/api/review/update/${id}`
+                console.log('urrrlll...', url)
+                // const resultAction = await dispatch(fetchData({ url, method: 'POST', data }));
+                const resultAction = await dispatch(fetchData({
+                    url, method: 'PUT', data, headers: {
+                        'Accept': '*/*',
+                        'Content-Type': 'application/json',
+                        'Authorization': `${localStorage.getItem('token')}`
+                    }
+                }));
+                if (fetchData.fulfilled.match(resultAction)) {
+                    const payload = resultAction.payload as BookResponse;
+                    console.log('pyaloaddd...', payload)
+                    if (payload.success) {
+                        setMessage(payload.message);
+                        setSeverity('success');
+                        setTimeout(() => {
+                            navigate('/myreview');
+                        }, 2000);
                     } else {
                         setMessage(payload.message);
                         setSeverity('error');
@@ -332,7 +397,7 @@ const Form: React.FC<FormProps> = ({ isNew, isFor }) => {
                             autoComplete="off"
                         >
                             {/* {isNew && <TextField */}
-                            {((isFor.replace(" ", "").toLowerCase() === 'signup' || isFor.replace(" ", "").toLowerCase() === 'login') && isFor.replace(" ", "").toLowerCase() !== 'reviewform') && <TextField
+                            {((isFor.replace(" ", "").toLowerCase() === 'signup' || isFor.replace(" ", "").toLowerCase() === 'login') && (isFor.replace(" ", "").toLowerCase() !== 'reviewform' || isFor.replace(" ", "").toLowerCase() !== 'reviewforme')) && <TextField
                                 error={emailError !== ""}
                                 helperText={emailError}
                                 id="email-field"
@@ -343,7 +408,7 @@ const Form: React.FC<FormProps> = ({ isNew, isFor }) => {
                                 required
                             />}
                             <br />
-                            {isFor.replace(" ", "").toLowerCase() === 'signup' && isFor.replace(" ", "").toLowerCase() !== 'reviewform' && <TextField
+                            {isFor.replace(" ", "").toLowerCase() === 'signup' && (isFor.replace(" ", "").toLowerCase() !== 'reviewform' || isFor.replace(" ", "").toLowerCase() !== 'reviewforme') && <TextField
                                 error={usernameError !== ""}
                                 helperText={usernameError}
                                 id="username-field"
@@ -354,7 +419,7 @@ const Form: React.FC<FormProps> = ({ isNew, isFor }) => {
                                 required
                             />}
                             <br />
-                            {isFor.replace(" ", "").toLowerCase() !== 'reviewform' && <TextField
+                            {(isFor.replace(" ", "").toLowerCase() !== 'reviewforme' && isFor.replace(" ", "").toLowerCase() !== 'reviewform') && <TextField
                                 error={passwordError !== ""}
                                 helperText={passwordError}
                                 id="password-field"
@@ -379,7 +444,7 @@ const Form: React.FC<FormProps> = ({ isNew, isFor }) => {
                             />}
                             {/* <br /> */}
                             {
-                                isFor.replace(" ", "").toLowerCase() === "reviewform" &&
+                                (isFor.replace(" ", "").toLowerCase() === "reviewform" || isFor.replace(" ", "").toLowerCase() === "reviewforme") &&
                                 <div className='grid grid-cols-2 grid-flow-row gap-4'>
                                     <TextField
                                         error={bookNameError !== ""}
@@ -456,10 +521,10 @@ const Form: React.FC<FormProps> = ({ isNew, isFor }) => {
                                     className='w-full bg-yellow-500'
                                     onClick={handleSignUp}
                                 >
-                                    {isFor.replace(" ", "").toLowerCase() === "login" ? 'Login' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Signup' : "Submit"}
+                                    {isFor.replace(" ", "").toLowerCase() === "login" ? 'Login' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Signup' : isFor.replace(" ", "").toLowerCase() === "reviewforme" ? "Update" : "Submit"}
                                 </Button>
                                 {/* <small>{!isNew ? 'Not registered yet?' : 'Already registered?'} <a href={isNew ? '/login' : '/signup'}>{isNew ? 'Login' : 'Signup'}</a></small> */}
-                                <small>{isFor.replace(" ", "").toLowerCase() === "login" ? 'Not registered yet?' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Already registered?' : ""} <Link to={isFor.replace(" ", "").toLowerCase() === "login" ? '/signup' : isFor.replace(" ", "").toLowerCase() === "signup" ? '/login' : ""}>{isFor.replace(" ", "").toLowerCase() === "login" ? 'Signup' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Login' : ""}</Link></small>
+                                <small>{isFor.replace(" ", "").toLowerCase() === "login" ? 'Not registered yet?' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Already registered?' : ""} <Link to={isFor.replace(" ", "").toLowerCase() === "login" ? '/signup' : isFor.replace(" ", "").toLowerCase() === "signup" ? '/login' : "/myreview"}>{isFor.replace(" ", "").toLowerCase() === "login" ? 'Signup' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Login' : "My Review"}</Link></small>
                             </div>
                             <Toast open={open} message={message} onClose={handleClose} severity={severity} />
                         </Box>

@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { API } from '../config/constants';
 import Toast from './toast';
 
-interface SearchProps {
+export interface SearchProps {
     _id: string;
     userId: string;
     bookName: string;

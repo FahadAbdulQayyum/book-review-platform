@@ -19,6 +19,8 @@ import { Provider } from 'react-redux';
 import CustomNavbar from './components/customNav.tsx';
 import ReviewForm from './components/reviewForm.tsx';
 import Layout from './layout.tsx';
+import MyReview from './components/myReview.tsx';
+import ReviewForme from './components/reviewForme.tsx';
 
 const router = createBrowserRouter([
   //   {
@@ -51,6 +53,8 @@ const router = createBrowserRouter([
       { path: 'login', element: <Login /> },
       { path: 'signup', element: <SignUp /> },
       { path: 'reviewform', element: <ReviewForm /> },
+      { path: 'reviewforme', element: <ReviewForme /> },
+      { path: 'myreview', element: <MyReview /> },
     ],
   },
   // {
