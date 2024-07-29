@@ -65,8 +65,8 @@ const MyReview = () => {
 
         if (fetchData.fulfilled.match(resultAction)) {
             const payload = resultAction.payload as BookResponse;
-            setMessage('Delete Successfully!');
-            setSeverity('error');
+            setMessage('Deleted Successfully!');
+            setSeverity('success');
             setOpen(true)
         }
     }
@@ -92,7 +92,7 @@ const MyReview = () => {
                     />
                     <div className='space-x-2'>
                         <button
-                            onClick={() => navigate('/reviewforme', { state: v })}
+                            onClick={() => navigate('/editreview', { state: v })}
                             className='bg-green-400 p-2 px-4 rounded active:scale-75 transition-all duration-500'>Edit</button>
                         <button
                             onClick={() => deleteReview(v._id)}

@@ -20,7 +20,8 @@ import { Provider } from 'react-redux';
 import ReviewForm from './components/reviewForm';
 import Layout from './layout';
 import MyReview from './components/myReview';
-import ReviewForme from './components/reviewForme';
+// import ReviewForme from './components/reviewForme';
+import EditReview from './components/editReview';
 import MyProfile from './components/myProfile';
 
 const router = createBrowserRouter([
@@ -33,7 +34,8 @@ const router = createBrowserRouter([
       { path: 'login', element: <Login /> },
       { path: 'signup', element: <SignUp /> },
       { path: 'reviewform', element: <ReviewForm /> },
-      { path: 'reviewforme', element: <ReviewForme /> },
+      // { path: 'reviewforme', element: <ReviewForme /> },
+      { path: 'editreview', element: <EditReview /> },
       { path: 'myreview', element: <MyReview /> },
       { path: 'myprofile', element: <MyProfile /> },
     ],

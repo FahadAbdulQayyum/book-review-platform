@@ -224,7 +224,7 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
 
             return true;
         }
-        if (isFor.replace(" ", "").toLowerCase() === "reviewforme" || isFor.replace(" ", "").toLowerCase() === "updateprofile") {
+        if (isFor.replace(" ", "").toLowerCase() === "editreview" || isFor.replace(" ", "").toLowerCase() === "updateprofile") {
             return true;
         }
         if (!email.length && !emailRegex.test(email) && isFor.replace(" ", "").toLowerCase() !== "reviewform") {
@@ -245,6 +245,10 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleCancel = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        navigate('/')
+    }
 
     const handleSignUp = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -344,7 +348,7 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
 
             }
 
-            if (isFor.replace(" ", "").toLowerCase() === 'reviewforme') {
+            if (isFor.replace(" ", "").toLowerCase() === 'editreview') {
 
                 let data = {
                     bookName, bookId, bookAuthor, bookReviewText, bookRating, userId: localStorage.getItem('userId')
@@ -453,7 +457,7 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
                             noValidate
                             autoComplete="off"
                         >
-                            {((isFor.replace(" ", "").toLowerCase() === 'signup' || (isFor.replace(" ", "").toLowerCase() === 'updateprofile') || isFor.replace(" ", "").toLowerCase() === 'login') && (isFor.replace(" ", "").toLowerCase() !== 'reviewform' || isFor.replace(" ", "").toLowerCase() !== 'reviewforme')) && <TextField
+                            {((isFor.replace(" ", "").toLowerCase() === 'signup' || (isFor.replace(" ", "").toLowerCase() === 'updateprofile') || isFor.replace(" ", "").toLowerCase() === 'login') && (isFor.replace(" ", "").toLowerCase() !== 'reviewform' || isFor.replace(" ", "").toLowerCase() !== 'editreview')) && <TextField
                                 error={emailError !== ""}
                                 helperText={emailError}
                                 id="email-field"
@@ -464,7 +468,7 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
                                 required
                             />}
                             <br />
-                            {(isFor.replace(" ", "").toLowerCase() === 'signup' || (isFor.replace(" ", "").toLowerCase() === 'updateprofile')) && (isFor.replace(" ", "").toLowerCase() !== 'reviewform' || isFor.replace(" ", "").toLowerCase() !== 'reviewforme') && <TextField
+                            {(isFor.replace(" ", "").toLowerCase() === 'signup' || (isFor.replace(" ", "").toLowerCase() === 'updateprofile')) && (isFor.replace(" ", "").toLowerCase() !== 'reviewform' || isFor.replace(" ", "").toLowerCase() !== 'editreview') && <TextField
                                 error={usernameError !== ""}
                                 helperText={usernameError}
                                 id="username-field"
@@ -475,7 +479,7 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
                                 required
                             />}
                             <br />
-                            {(isFor.replace(" ", "").toLowerCase() !== 'updateprofile' && isFor.replace(" ", "").toLowerCase() !== 'reviewforme' && isFor.replace(" ", "").toLowerCase() !== 'reviewform') && <TextField
+                            {(isFor.replace(" ", "").toLowerCase() !== 'updateprofile' && isFor.replace(" ", "").toLowerCase() !== 'editreview' && isFor.replace(" ", "").toLowerCase() !== 'reviewform') && <TextField
                                 error={passwordError !== ""}
                                 helperText={passwordError}
                                 id="password-field"
@@ -499,7 +503,7 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
                                 required
                             />}
                             {
-                                (isFor.replace(" ", "").toLowerCase() === "reviewform" || isFor.replace(" ", "").toLowerCase() === "reviewforme") &&
+                                (isFor.replace(" ", "").toLowerCase() === "reviewform" || isFor.replace(" ", "").toLowerCase() === "editreview") &&
                                 <div className='grid grid-cols-2 grid-flow-row gap-4'>
                                     <TextField
                                         error={bookNameError !== ""}
@@ -554,7 +558,7 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
                                 </div>
 
                             }
-                            <div className='mt-6 ml-2 text-center'>
+                            <div className='mt-6 ml-2 text-center space-y-2'>
                                 <Button
                                     variant="contained"
                                     sx={{
@@ -566,16 +570,30 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
                                     className='w-full bg-yellow-500'
                                     onClick={handleSignUp}
                                 >
-                                    {isFor.replace(" ", "").toLowerCase() === "login" ? 'Login' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Signup' : (isFor.replace(" ", "").toLowerCase() === "reviewforme" || (isFor.replace(" ", "").toLowerCase() === 'updateprofile')) ? "Update" : "Submit"}
+                                    {isFor.replace(" ", "").toLowerCase() === "login" ? 'Login' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Signup' : (isFor.replace(" ", "").toLowerCase() === "editreview" || (isFor.replace(" ", "").toLowerCase() === 'updateprofile')) ? "Update" : "Submit"}
                                 </Button>
-                                <small>{isFor.replace(" ", "").toLowerCase() === "login" ? 'Not registered yet?' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Already registered?' : ""} <Link to={isFor.replace(" ", "").toLowerCase() === "login" ? '/signup' : isFor.replace(" ", "").toLowerCase() === "signup" ? '/login' : "/myreview"}>{isFor.replace(" ", "").toLowerCase() === "login" ? 'Signup' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Login' : isFor.replace(" ", "").toLowerCase() === 'updateprofile' ? "" : "My Review"}</Link></small>
+                                {(isFor.replace(" ", "").toLowerCase() === "updateprofile" || isFor.replace(" ", "").toLowerCase() === "reviewform" || isFor.replace(" ", "").toLowerCase() === "editreview") && <Button
+                                    variant="contained"
+                                    sx={{
+                                        backgroundColor: '#FF7F7F',
+                                        '&:hover': {
+                                            backgroundColor: '#FF7F7F90',
+                                        },
+                                    }}
+                                    className='w-full bg-red-500 '
+                                    onClick={handleCancel}
+                                >
+                                    {/* {isFor.replace(" ", "").toLowerCase() === "login" ? 'Login' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Signup' : (isFor.replace(" ", "").toLowerCase() === "reviewforme" || (isFor.replace(" ", "").toLowerCase() === 'updateprofile')) ? "Update" : "Submit"} */}
+                                    Cancel
+                                </Button>}
+                                <small>{isFor.replace(" ", "").toLowerCase() === "login" ? 'Not registered yet?' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Already registered?' : ""} <Link to={isFor.replace(" ", "").toLowerCase() === "login" ? '/signup' : isFor.replace(" ", "").toLowerCase() === "signup" ? '/login' : "/myreview"}>{isFor.replace(" ", "").toLowerCase() === "login" ? 'Signup' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Login' : isFor.replace(" ", "").toLowerCase() === 'editreview' ? "" : isFor.replace(" ", "").toLowerCase() === 'updateprofile' ? "" : "Show My Review"}</Link></small>
                             </div>
                             <Toast open={open} message={message} onClose={handleClose} severity={severity} />
                         </Box>
                     </div>
                 </div>
             </div >
-        </div>
+        </div >
     )
 }
 
