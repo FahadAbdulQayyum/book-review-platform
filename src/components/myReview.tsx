@@ -18,7 +18,6 @@ import { StarIcon } from '@heroicons/react/24/outline';
 const MyReview = () => {
 
     const [data, setData] = useState([])
-    // const [value, setValue] = useState("")
 
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
@@ -33,7 +32,6 @@ const MyReview = () => {
         const fetchDataIfIdle = async () => {
             if (status === 'idle') {
                 const url = `${API}/api/review/getmyreview/${localStorage.getItem('userId')}`;
-                console.log('url...', url)
                 const resultAction = await dispatch(fetchData({
                     url, method: 'GET',
                     headers: {
@@ -45,18 +43,15 @@ const MyReview = () => {
 
                 if (fetchData.fulfilled.match(resultAction)) {
                     const payload = resultAction.payload as BookResponse;
-                    console.log('payloadddddData', payload.data);
                     setData(payload.data);
                 }
             }
         };
 
         fetchDataIfIdle();
-        // }, [dispatch, status]);
     }, []);
 
     const deleteReview = async (id: string) => {
-        // const url = `${API}/api/review/deletereview/${localStorage.getItem('userId')}/${v._id}`;
         const url = `${API}/api/review/delete/${id}`;
         console.log('url...', url)
         const resultAction = await dispatch(fetchData({
@@ -70,13 +65,9 @@ const MyReview = () => {
 
         if (fetchData.fulfilled.match(resultAction)) {
             const payload = resultAction.payload as BookResponse;
-            console.log('payloadddddData', payload.data);
-            // if (payload.success) {
-            // navigate('/myreview')
             setMessage('Delete Successfully!');
             setSeverity('error');
             setOpen(true)
-            // }
         }
     }
 
@@ -97,12 +88,6 @@ const MyReview = () => {
                         name="hover-feedback"
                         value={+v.bookRating}
                         precision={0.5}
-                        // onChange={(event, newValue) => {
-                        //     setValue(newValue);
-                        // }}
-                        // onChangeActive={(event, newHover) => {
-                        //     setHover(newHover);
-                        // }}
                         emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                     />
                     <div className='space-x-2'>

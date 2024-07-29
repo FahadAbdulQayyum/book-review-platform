@@ -4,7 +4,6 @@ const MyProfile = () => {
     return (
         <div >
             <Form isFor={'Update Profile'}
-            // additionalInputs={state}
             />
         </div>
     )

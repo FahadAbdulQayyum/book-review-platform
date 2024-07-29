@@ -32,7 +32,6 @@ const Home = () => {
     const dispatch: AppDispatch = useDispatch();
     const books = useSelector((state: RootState) => state.books.books);
     const status = useSelector((state: RootState) => state.books.status);
-    // const error = useSelector((state: RootState) => state.books.error);
 
     const [data, setData] = useState<SearchProps[]>([]);
     const [displayData, setDisplayData] = useState<SearchProps[]>([]);
@@ -53,36 +52,9 @@ const Home = () => {
     const isInitialMount = useRef(true);
 
     useEffect(() => {
-        // const checkToken = async () => {
-        //     if (status === 'idle') {
-        //         const url = `${API}/api/user/auth`;
-        //         const resultAction = await dispatch(fetchData({
-        //             url, method: 'GET',
-        //             headers: {
-        //                 'Accept': '*/*',
-        //                 'Content-Type': 'application/json',
-        //                 'Authorization': `${localStorage.getItem('token')}`
-        //             }
-        //         }));
-        //         if (fetchData.fulfilled.match(resultAction)) {
-        //             const payload = resultAction.payload as BookResponse;
-        //             if (payload.success) {
-        //                 console.log(".......passed");
-        //             } else {
-        //                 setMessage('Login First!');
-        //                 setSeverity('error');
-        //                 setTimeout(() => {
-        //                     navigate('/login');
-        //                 }, 1000);
-        //                 setOpen(true);
-        //             }
-        //         }
-        // }
-        // };
 
         if (isInitialMount.current) {
             isInitialMount.current = false;
-            // checkToken();
         }
     }, [dispatch, navigate, status]);
 

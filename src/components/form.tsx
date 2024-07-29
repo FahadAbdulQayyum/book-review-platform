@@ -37,7 +37,7 @@ export interface BookResponse {
     message: string;
     token: string;
     user?: { _id: string }
-    data?: any; // Adjust the type based on your actual data structure
+    data?: any;
 }
 const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
     const [showPassword, setShowPassword] = useState(false);
@@ -51,7 +51,6 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
     const [bookRating, setBookRating] = useState<number>(0);
     const [id, setId] = useState("");
 
-    // Initialize error states
     const [usernameError, setUsernameError] = useState("");
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
@@ -68,15 +67,11 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
 
     const navigate = useNavigate();
     const dispatch: AppDispatch = useDispatch();
-    // const books = useSelector((state: RootState) => state.books.books);
-    // const status = useSelector((state: RootState) => state.books.status);
-    // const error = useSelector((state: RootState) => state.books.error);
 
     const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
     useEffect(() => {
         if (additionalInputs) {
-            console.log('addtionalInputssss...', additionalInputs)
             setBookName(additionalInputs.bookName)
             setBookId(additionalInputs.bookId)
             setBookAuthor(additionalInputs.bookAuthor)
@@ -191,18 +186,6 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
             return true;
         }
         if (isFor.replace(" ", "").toLowerCase() === "reviewforme" || isFor.replace(" ", "").toLowerCase() === "updateprofile") {
-            // if (email.length < 5) {
-            //     return false
-            // }
-
-            // if (username.length < 5) {
-            //     return false
-            // }
-
-            // if (password.length < 5) {
-            //     return false
-            // }
-
             return true;
         }
         if (!email.length && !emailRegex.test(email) && isFor.replace(" ", "").toLowerCase() !== "reviewform") {
@@ -296,7 +279,6 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
                     bookName, bookId, bookAuthor, bookReviewText, bookRating, userId: localStorage.getItem('userId')
                 }
                 const url = `${API}/api/review/add`
-                // const resultAction = await dispatch(fetchData({ url, method: 'POST', data }));
                 const resultAction = await dispatch(fetchData({
                     url, method: 'POST', data, headers: {
                         'Accept': '*/*',
@@ -334,7 +316,6 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
                 console.log('id...', id)
                 const url = `${API}/api/review/update/${id}`
                 console.log('urrrlll...', url)
-                // const resultAction = await dispatch(fetchData({ url, method: 'POST', data }));
                 const resultAction = await dispatch(fetchData({
                     url, method: 'PUT', data, headers: {
                         'Accept': '*/*',
@@ -367,13 +348,9 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
 
                 console.log('updateprofile clled...')
                 let data = {
-                    // bookName, bookId, bookAuthor, bookReviewText, bookRating, userId: localStorage.getItem('userId')
                     email, username
                 }
-                console.log('id...', id)
                 const url = `${API}/api/user/update/${localStorage.getItem('userId')}`
-                console.log('udpate urrrlll...', url)
-                // const resultAction = await dispatch(fetchData({ url, method: 'POST', data }));
                 const resultAction = await dispatch(fetchData({
                     url, method: 'PUT', data, headers: {
                         'Accept': '*/*',
@@ -383,7 +360,6 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
                 }));
                 if (fetchData.fulfilled.match(resultAction)) {
                     const payload = resultAction.payload as BookResponse;
-                    console.log('pyaloaddd...', payload)
                     if (payload.success) {
                         setMessage(payload.message);
                         setSeverity('success');
@@ -431,7 +407,6 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
             </div>
             <div className='justify-center w-full md:w-[60%] sm:h-full bg-tertiary text-black flex items-center'>
                 <div className='m-10 w-full sm:m-6 md:m-10 lg:m-16 overflow-hidden'>
-                    {/* <h1 className='text-3xl font-bold tracking-tight'>{isNew ? 'Sign Up' : 'Log In'}</h1> */}
                     <h1 className='text-3xl font-bold tracking-tight'>{isFor}</h1>
                     <div className='w-20 h-1 bg-primary mt-3'></div>
                     <div>
@@ -446,7 +421,6 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
                             noValidate
                             autoComplete="off"
                         >
-                            {/* {isNew && <TextField */}
                             {((isFor.replace(" ", "").toLowerCase() === 'signup' || (isFor.replace(" ", "").toLowerCase() === 'updateprofile') || isFor.replace(" ", "").toLowerCase() === 'login') && (isFor.replace(" ", "").toLowerCase() !== 'reviewform' || isFor.replace(" ", "").toLowerCase() !== 'reviewforme')) && <TextField
                                 error={emailError !== ""}
                                 helperText={emailError}
@@ -492,7 +466,6 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
                                 }}
                                 required
                             />}
-                            {/* <br /> */}
                             {
                                 (isFor.replace(" ", "").toLowerCase() === "reviewform" || isFor.replace(" ", "").toLowerCase() === "reviewforme") &&
                                 <div className='grid grid-cols-2 grid-flow-row gap-4'>
@@ -546,16 +519,6 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
                                         variant="standard"
                                         required
                                     />
-                                    {/* <TextField
-                                        error={emailError !== ""}
-                                        helperText={emailError}
-                                        id="email-field"
-                                        label="Book Name"
-                                        value={email}
-                                        onChange={onChangeEmail}
-                                        variant="standard"
-                                        required
-                                    /> */}
                                 </div>
 
                             }
@@ -573,7 +536,6 @@ const Form: React.FC<FormProps> = ({ isFor, additionalInputs }) => {
                                 >
                                     {isFor.replace(" ", "").toLowerCase() === "login" ? 'Login' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Signup' : (isFor.replace(" ", "").toLowerCase() === "reviewforme" || (isFor.replace(" ", "").toLowerCase() === 'updateprofile')) ? "Update" : "Submit"}
                                 </Button>
-                                {/* <small>{!isNew ? 'Not registered yet?' : 'Already registered?'} <a href={isNew ? '/login' : '/signup'}>{isNew ? 'Login' : 'Signup'}</a></small> */}
                                 <small>{isFor.replace(" ", "").toLowerCase() === "login" ? 'Not registered yet?' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Already registered?' : ""} <Link to={isFor.replace(" ", "").toLowerCase() === "login" ? '/signup' : isFor.replace(" ", "").toLowerCase() === "signup" ? '/login' : "/myreview"}>{isFor.replace(" ", "").toLowerCase() === "login" ? 'Signup' : isFor.replace(" ", "").toLowerCase() === "signup" ? 'Login' : isFor.replace(" ", "").toLowerCase() === 'updateprofile' ? "" : "My Review"}</Link></small>
                             </div>
                             <Toast open={open} message={message} onClose={handleClose} severity={severity} />

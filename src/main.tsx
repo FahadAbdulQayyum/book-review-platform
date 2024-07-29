@@ -24,30 +24,9 @@ import ReviewForme from './components/reviewForme';
 import MyProfile from './components/myProfile';
 
 const router = createBrowserRouter([
-  //   {
-  //     path: "/",
-  //     element: <Root />,
-  //     errorElement: <ErrorPage />,
-  //   },
-  //   {
-  //     path: "/login",
-  //     element: <Login />,
-  //     errorElement: <ErrorPage />
-  //   },
-  //   {
-  //     path: "/signup",
-  //     element: <SignUp />,
-  //     errorElement: <ErrorPage />
-  //   },
-  //   {
-  //     path: "/reviewform",
-  //     element: <ReviewForm />,
-  //     errorElement: <ErrorPage />
-  //   },
-
   {
     path: '/',
-    element: <Layout />, // Layout component wraps all routes
+    element: <Layout />,
     errorElement: <ErrorPage />,
     children: [
       { path: '', element: <Root /> },
@@ -59,27 +38,11 @@ const router = createBrowserRouter([
       { path: 'myprofile', element: <MyProfile /> },
     ],
   },
-  // {
-  //   path: "/login",
-  //   element: <Login />,
-  //   errorElement: <ErrorPage />
-  // },
-  // {
-  //   path: "/signup",
-  //   element: <SignUp />,
-  //   errorElement: <ErrorPage />
-  // },
-  // {
-  //   path: "/reviewform",
-  //   element: <ReviewForm />,
-  //   errorElement: <ErrorPage />
-  // },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
-      {/* <CustomNavbar /> */}
       <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>,

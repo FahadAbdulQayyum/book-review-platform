@@ -6,8 +6,7 @@ const Layout = () => {
         <div>
             <CustomNavbar />
             <main>
-                <Outlet /> {/* This renders the current route's component */}
-                {/* <Home /> */}
+                <Outlet />
             </main>
         </div>
     );

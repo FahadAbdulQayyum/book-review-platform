@@ -14,30 +14,23 @@ const CustomNavbar = () => {
     const { value } = useSelector((state: RootState) => state.counter);
 
     const [isSearchVisible, setIsSearchVisible] = useState(false);
-    // const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
     const toggleSearch = () => setIsSearchVisible(!isSearchVisible);
-    // const toggleDropdown = () => setIsDropdownVisible(!isDropdownVisible);
     const [menuVisible, setMenuVisible] = useState(false);
     const [isLoggedIn, setLoggedIn] = useState(localStorage.getItem('token')!!);
 
     const handleMenuToggle = () => {
-        // Toggle the state between true and false
         setMenuVisible(!menuVisible);
-        console.log("let see")
     };
 
     useEffect(() => {
-        console.log('isLoggedIn...value', isLoggedIn, value)
     }, [isLoggedIn, value])
 
     const logOut = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
         setLoggedIn("");
-        // dispatch(decrement())
         dispatch(increment())
-        console.log('isLoggedIn...value', value)
 
     }
 
@@ -68,22 +61,15 @@ const CustomNavbar = () => {
                             </div>
                             <input type="text" id="search-navbar" className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..." />
                         </div>
-                        {/* {localStorage.getItem('token') && [localStorage.getItem('token')].length > 0 && <Link to='/reviewform' className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1"> */}
                         {!value && <Link to='/reviewform' className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1">
-                            {/* {(localStorage.getItem('token') !== null || localStorage.getItem('token') !== undefined) && <Link to='/reviewform' className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1"> */}
                             <FontAwesomeIcon icon={faPlus} />
                         </Link>}
-                        {/* </button> */}
-                        {/* <button type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" onClick={toggleSearch} className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 "> */}
                         <Link to='/login' className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1">
 
                             {localStorage.getItem('token') === null ? <FontAwesomeIcon icon={faSignInAlt} />
-                                // : <FontAwesomeIcon icon={faSignOutAlt} onClick={() => localStorage.setItem('token', '')} />}
                                 : <FontAwesomeIcon icon={faSignOutAlt} onClick={logOut} />}
-                            {/* : <FontAwesomeIcon icon={faSignOutAlt} onClick={() => localStorage.removeItem('token')} />} */}
                         </Link>
                         {localStorage.getItem('token') !== null && <Link to="/myprofile" className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1" ><FontAwesomeIcon icon={faUser} /></Link>}
-                        {/* </button> */}
                         <button data-collapse-toggle="navbar-search" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-search" aria-expanded="false" onClick={handleMenuToggle}>
                             <span className="sr-only">Open main menu</span>
                             <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
@@ -92,14 +78,6 @@ const CustomNavbar = () => {
                         </button>
                     </div>
                     <div className="items-center justify-between block md:hidden w-full md:flex md:w-auto md:order-1" id="navbar-search">
-                        {/* <div className="relative mt-3 block md:hidden">
-                            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none ">
-                                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                                </svg>
-                            </div>
-                            <input type="text" id="search-navbar" className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..." />
-                        </div> */}
                         {menuVisible ? <ul className="absolute z-10 flex flex-col w-full -ml-4 p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                             <li>
                                 <a href="#" className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">Home</a>
