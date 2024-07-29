@@ -16,7 +16,7 @@ import Login from './components/login';
 import SignUp from './components/signup';
 import { store } from './store';
 import { Provider } from 'react-redux';
-import CustomNavbar from './components/customNav';
+// import CustomNavbar from './components/customNav';
 import ReviewForm from './components/reviewForm';
 import Layout from './layout';
 import MyReview from './components/myReview';

@@ -4,8 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt, faSignOutAlt, faPlus, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store';
+import { decrement, increment } from '../features/counter/counterSlice';
 
 const CustomNavbar = () => {
+
+    const dispatch: AppDispatch = useDispatch();
+    const { value } = useSelector((state: RootState) => state.counter);
 
     const [isSearchVisible, setIsSearchVisible] = useState(false);
     // const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -22,13 +28,17 @@ const CustomNavbar = () => {
     };
 
     useEffect(() => {
-        console.log('isLoggedIn...', isLoggedIn)
-    }, [isLoggedIn])
+        console.log('isLoggedIn...value', isLoggedIn, value)
+    }, [isLoggedIn, value])
 
     const logOut = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
         setLoggedIn("");
+        // dispatch(decrement())
+        dispatch(increment())
+        console.log('isLoggedIn...value', value)
+
     }
 
     return (
@@ -58,7 +68,8 @@ const CustomNavbar = () => {
                             </div>
                             <input type="text" id="search-navbar" className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..." />
                         </div>
-                        {localStorage.getItem('token') && [localStorage.getItem('token')].length > 0 && <Link to='/reviewform' className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1">
+                        {/* {localStorage.getItem('token') && [localStorage.getItem('token')].length > 0 && <Link to='/reviewform' className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1"> */}
+                        {!value && <Link to='/reviewform' className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1">
                             {/* {(localStorage.getItem('token') !== null || localStorage.getItem('token') !== undefined) && <Link to='/reviewform' className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1"> */}
                             <FontAwesomeIcon icon={faPlus} />
                         </Link>}

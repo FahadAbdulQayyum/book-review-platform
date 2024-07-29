@@ -15,6 +15,7 @@ import { API } from '../config/constants';
 import Toast from './toast';
 
 import { useNavigate } from 'react-router-dom';
+import { decrement } from '../features/counter/counterSlice';
 
 
 interface updateDataInfo {
@@ -252,6 +253,7 @@ const Form: React.FC<FormProps> = ({ isNew, isFor, additionalInputs }) => {
                         setSeverity('success');
                         setTimeout(() => {
                             navigate('/');
+                            dispatch(decrement())
                         }, 1000);
                     } else {
                         setMessage(payload.message);

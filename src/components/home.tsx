@@ -32,12 +32,12 @@ const Home = () => {
     const dispatch: AppDispatch = useDispatch();
     const books = useSelector((state: RootState) => state.books.books);
     const status = useSelector((state: RootState) => state.books.status);
-    const error = useSelector((state: RootState) => state.books.error);
+    // const error = useSelector((state: RootState) => state.books.error);
 
     const [data, setData] = useState<SearchProps[]>([]);
     const [displayData, setDisplayData] = useState<SearchProps[]>([]);
-    const [value, setValue] = useState<number | null>(2);
-    const [hover, setHover] = useState(-1);
+    const [, setValue] = useState<number | null>(2);
+    const [, setHover] = useState(-1);
     const [search, setSearch] = useState("");
     const [searchError, setSearchError] = useState("");
 
@@ -131,6 +131,7 @@ const Home = () => {
     }, [page, data]);
 
     const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
+        event.preventDefault()
         setPage(value);
     };
 
@@ -224,7 +225,6 @@ const Home = () => {
                             <p>{v.bookName ? v.bookName.toUpperCase() : ''}</p>
                             <small>{v.bookAuthor}</small>
                         </div>
-                        <div>{v.bookRating}</div>
                         <Rating
                             name="hover-feedback"
                             value={+v.bookRating}
@@ -259,7 +259,7 @@ const Home = () => {
                     },
                 }}
             />
-        </div>
+        </div >
     );
 }
 
