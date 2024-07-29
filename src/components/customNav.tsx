@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Img from '../assets/book-logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignInAlt, faSignOutAlt, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt, faSignOutAlt, faPlus, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
 
@@ -51,17 +51,17 @@ const CustomNavbar = () => {
                         </div>
                         {/* <button type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" onClick={toggleSearch} className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1"> */}
                         {/* <a href='/reviewform' className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1"> */}
-                        <Link to='/reviewform' className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1">
+                        {localStorage.getItem('token') && <Link to='/reviewform' className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1">
                             <FontAwesomeIcon icon={faPlus} />
-                        </Link>
+                        </Link>}
                         {/* </button> */}
                         {/* <button type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" onClick={toggleSearch} className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 "> */}
                         <Link to='/login' className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1">
 
-                            <FontAwesomeIcon icon={faSignInAlt} />
-                            {/* <FontAwesomeIcon icon={faSignOutAlt} /> */}
+                            {!localStorage.getItem('token') !== null ? <FontAwesomeIcon icon={faSignInAlt} />
+                                : <FontAwesomeIcon icon={faSignOutAlt} onClick={() => localStorage.setItem('token', '')} />}
                         </Link>
-
+                        {localStorage.getItem('token') === null && <Link to="/myprofile" className=" text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1" ><FontAwesomeIcon icon={faUser} /></Link>}
                         {/* </button> */}
                         <button data-collapse-toggle="navbar-search" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-search" aria-expanded="false" onClick={handleMenuToggle}>
                             <span className="sr-only">Open main menu</span>
