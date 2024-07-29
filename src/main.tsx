@@ -21,6 +21,7 @@ import ReviewForm from './components/reviewForm.tsx';
 import Layout from './layout.tsx';
 import MyReview from './components/myReview.tsx';
 import ReviewForme from './components/reviewForme.tsx';
+import MyProfile from './components/myProfile.tsx';
 
 const router = createBrowserRouter([
   //   {
@@ -55,6 +56,7 @@ const router = createBrowserRouter([
       { path: 'reviewform', element: <ReviewForm /> },
       { path: 'reviewforme', element: <ReviewForme /> },
       { path: 'myreview', element: <MyReview /> },
+      { path: 'myprofile', element: <MyProfile /> },
     ],
   },
   // {
