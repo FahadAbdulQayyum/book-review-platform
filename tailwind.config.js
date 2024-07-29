@@ -18,7 +18,7 @@ module.exports = {
       }
     },
     backgroundImage: {
-      'hero-pattern': "url('./src/assets/books.jpeg')",
+      'hero-pattern': "url('/assets/books.jpeg')",
     }
   },
   plugins: [],
