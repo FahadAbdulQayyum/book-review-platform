@@ -15,6 +15,7 @@ import { BookResponse } from './form';
 import { useNavigate } from 'react-router-dom';
 import { API } from '../config/constants';
 import Toast from './toast';
+import { increment } from '../features/counter/counterSlice';
 
 export interface SearchProps {
     _id: string;
@@ -55,6 +56,7 @@ const Home = () => {
 
         if (isInitialMount.current) {
             isInitialMount.current = false;
+            !localStorage.getItem('token') && dispatch(increment())
         }
     }, [dispatch, navigate, status]);
 
@@ -72,11 +74,9 @@ const Home = () => {
 
             if (fetchData.fulfilled.match(resultAction)) {
                 const payload = resultAction.payload as BookResponse;
-                console.log('payloadddddData', payload.data);
                 setData(payload.data);
             }
         }
-        console.log("fetchdata if ....")
     };
 
 
